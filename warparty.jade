@@ -44,14 +44,14 @@ template(name="layout")
   h1 
     a(href="/") Warparty
   +yield
-  
-template(name="home")
-  button.new-game(type="button") New game
   ul
     each games
       li
         a(href="/#{_id}") Game #{_id}
+  
+template(name="home")
+  
 
 template(name="game")
-  h2 Game
-  strong #{_id}
+  p 
+    Game ##{_id}, created on #{createdAt}
