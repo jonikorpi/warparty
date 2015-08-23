@@ -1,0 +1,169 @@
+@charset "utf-8";
+@viewport {width: device-width;}
+
+//
+// General variables
+
+$font-size-multiplier: 16/16;
+$line: 1.382rem;
+$narrower-word-spacing: -0.236em;
+$max-width: $line * 28;
+
+$masthead-height: 14.6%;
+$new-height:      30%;
+$new-height-s:    20%;
+$tags-height:     100% - $masthead-height - $new-height;
+$tags-height-s:   100% - $masthead-height - $new-height-s;
+
+$edge-gap: $line * 0.5;
+
+$card-padding: 3.4%;
+$card-border-width: 3px;
+$card-border-width-visited: $card-border-width;
+$card-border-radius: $card-border-width;
+
+$card-zoom: 0.944;
+$card-zoom-more: 1.0;
+
+$zoom-out-size: $line*2;
+
+$main-easing:        cubic-bezier(0.236, 0.000, 0.236, 1.000);
+$reverse-easing:     cubic-bezier(0.618, 0.000, 0.236, 1.000);
+$loop-easing:        ease-in-out;
+
+$main-time: 200ms;
+$short-time: 124ms;
+$loop-time: 6000ms;
+
+//
+// Colors
+
+$hue: 45;
+$hue-increment: 1.618;
+
+$hue-1:  $hue + (360/$hue-increment) *  1;
+$hue-2:  $hue + (360/$hue-increment) *  2;
+$hue-3:  $hue + (360/$hue-increment) *  3;
+$hue-4:  $hue + (360/$hue-increment) *  4;
+$hue-5:  $hue + (360/$hue-increment) *  5;
+$hue-6:  $hue + (360/$hue-increment) *  6;
+$hue-7:  $hue + (360/$hue-increment) *  7;
+$hue-8:  $hue + (360/$hue-increment) *  8;
+$hue-9:  $hue + (360/$hue-increment) *  9;
+$hue-10: $hue + (360/$hue-increment) * 10;
+$hue-11: $hue + (360/$hue-increment) * 11;
+$hue-12: $hue + (360/$hue-increment) * 12;
+$hue-13: $hue + (360/$hue-increment) * 13;
+
+$background:      hsl($hue-1, 50%, 23.6%);
+$off-background:  hsl($hue-1, 50%, 14.6%);
+$card-background: hsl($hue-1, 50%, 9%);
+
+$bright: hsl($hue, 23.6%, 76.4%);
+$body:   hsl($hue, 5.6%, 61.8%);
+$dim:    hsl($hue, 3.4%, 50%);
+
+$purple-bright: hsl($hue-1, 23.6%, 76.4%);
+$purple-body:   hsl($hue-1, 14.6%, 61.8%);
+$purple-dim:    hsl($hue-1, 9%, 50%);
+
+$yellow: hsl($hue,   50%, 61.8%);
+$orange: hsl($hue-8, 50%, 50%);
+$red:    hsl($hue-3, 38.2%, 50.0%);
+$blue:   hsl($hue-4, 50%, 60%);
+$cyan:   hsl($hue-7, 38.2%, 50.0%);
+$green:  hsl($hue-2, 23.6%, 50.0%);
+$purple: hsl($hue-1, 50.0%, 66.6%);
+
+$shadow:      hsl($hue-1, 50%, 5.6%);
+$border:      hsl($hue-1, 9%, 41.4%);
+
+$highlight: hsl($hue, 76.4%, 61.8%);
+$purple-highlight: hsl($hue-1, 38.2%, 50%);
+$blue-highlight: hsl($hue-4, 91%, 66.6%);
+
+//
+// Media queries
+
+$xs2:  "#{317 / 16 * 1em}";
+$xs:   "#{318 / 16 * 1em}";
+$s:    "#{478 / 16 * 1em}";
+$m:    "#{560 / 16 * 1em}";
+$l:    "#{740 / 16 * 1em}";
+$xl:   "#{960 / 16 * 1em}";
+$xl2: "#{1100 / 16 * 1em}";
+$xl3: "#{1200 / 16 * 1em}";
+$xl4: "#{1400 / 16 * 1em}";
+$xl5: "#{1700 / 16 * 1em}";
+$xl6: "#{1900 / 16 * 1em}";
+$xl7: "#{2300 / 16 * 1em}";
+
+$retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
+
+//
+// Imports
+
+@import "reset";
+
+//
+// Font families
+
+html {
+  font-family: serif;
+}
+
+//
+// Basic styles
+
+html {
+  font-size: 100% * $font-size-multiplier;
+  line-height: $line;
+  background: hsl($hue-1, 38.2%, 9%);
+  color: hsl($hue, 14.6%, 61.8%);
+  -webkit-tap-highlight-color: hsla($hue-1, 100%, 61.8%, 0.5);
+}
+
+body {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: $line * 1.5;
+}
+
+a {
+  color: hsl($hue-2, 85.4%, 61.8%);
+  text-decoration: none;
+
+  &:hover {
+    color: hsl($hue-3, 85.4%, 61.8%);
+  }
+
+  &:active {
+    color: hsl($hue-4, 85.4%, 61.8%);
+  }
+}
+
+h1, h2, h3, h4, h5, h6,
+strong, b {
+  color: hsl($hue, 23.6%, 76.4%);
+}
+
+hr {
+  border-color: hsl($hue-1, 9%, 23.6%);
+}
+
+code {
+  color: hsl($hue-1, 14.6%, 61.8%);
+}
+
+::selection {
+  background: hsl($hue-2, 91%, 61.8%);
+}
+
+::placeholder {
+  color: hsl($hue, 9%, 50%);
+}
+
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////

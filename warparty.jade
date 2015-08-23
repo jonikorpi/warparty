@@ -1,0 +1,57 @@
+head
+  meta(charset="utf-8")
+  title Warparty
+  
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+
+  //link(href="http://www.jonikorpi.com/images/avatar-570316eb.png" rel="icon" type="image/png")
+  //link(rel="apple-touch-icon" type="image/png" href="http://www.jonikorpi.com/images/avatar-570316eb.png")
+  // meta(name="msapplication-TileColor" content="#000000")
+  //meta(name="msapplication-TileImage" content=image_url("avatar.png"))
+  
+  //- "Social icons"
+  //meta(property="og:image"      content=image_url("avatar.png"))
+  //meta(property="twitter:image" content=image_url("avatar.png"))
+
+  //- URLs
+  //meta(property="og:url"      content=current_page_url)
+  //link(rel="canonical"           href=current_page_url)
+  //meta(property="twitter:url" content=current_page_url)
+
+  //- Titles
+  //meta(property="og:title"      content=data.page.title)
+  //meta(property="og:site_name"  content="Joni Korpi")
+  //meta(property="twitter:title" content=data.page.title)
+
+  //- Descriptions
+  // %meta{property: "og:description",      content: ""})
+  // %meta{name: "description",             content: ""})
+  // %meta{property: "twitter:description", content: ""})
+
+  //- Other crap
+  meta(property="og:type"      content="website")
+  meta(property="og:locale"    content="en_GB")
+  meta(content="summary"      property="twitter:card")
+  meta(content="@jonikorpi"   property="twitter:site")
+  meta(name="format-detection" content="telephone=no")
+
+body  
+      
+  each weekDays
+    +day
+
+template(name="layout")
+  h1 
+    a(href="/") Warparty
+  +yield
+  
+template(name="home")
+  button.new-game(type="button") New game
+  ul
+    each games
+      li
+        a(href="/#{_id}") Game #{_id}
+
+template(name="game")
+  h2 Game
+  strong #{_id}
