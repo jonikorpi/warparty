@@ -35,23 +35,52 @@ head
   meta(content="@jonikorpi"   property="twitter:site")
   meta(name="format-detection" content="telephone=no")
 
-body  
-      
-  each weekDays
-    +day
+body
 
 template(name="layout")
   h1 
     a(href="/") Warparty
+  hr
   +yield
+  hr
   ul
     each games
       li
-        a(href="/#{_id}") Game #{_id}
+        a(href="/#{_id}") 
+          Game #{_id}
+          if started 
+            strong (started)
   
 template(name="home")
+  button.create-game Create a game
   
 
 template(name="game")
-  p 
-    Game ##{_id}, created on #{createdAt}
+  h1 Game ##{_id} 
+  small
+    strong #{currentTurn}
+    if started
+      strong (Started)
+    else
+      em (Not started)
+    span Created on 
+    time #{createdAt}
+  
+  hr
+  button.start-game Start game
+  button.add-turn Add turn
+  
+  each turns
+    +turn
+    
+template(name="turn")
+  hr
+  h2 Turn #{_id}
+  button.blue-move Play a blue move
+  button.red-move Play a red move
+  ul
+    each moves
+      +move
+    
+template(name="move")
+  li #{this.description}
