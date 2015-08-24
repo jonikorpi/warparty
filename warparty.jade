@@ -42,17 +42,13 @@ template(name="layout")
     a(href="/") Warparty
   hr
   +yield
-  hr
-  ul
-    each games
-      li
-        a(href="/#{_id}") 
-          Game #{_id}
-          if started 
-            strong (started)
   
 template(name="home")
   button.create-game Create a game
+  ul
+    each games
+      li
+        a(href="/#{_id}") Game (#{_id})
   
 
 template(name="game")
@@ -66,9 +62,29 @@ template(name="game")
     span Created on 
     time #{createdAt}
   
+  //- 
+  //-  Character selection
+  unless started
+    h2 Class selection
+    
+    h3 Blue team
+    each slots
+      select.select-character(data-team="1" data-slot=this)
+        each characters
+          option(value=_id) #{name}
+    
+    h3 Red team
+    each slots
+      select.select-character(data-team="2" data-slot=this)
+        each characters
+          option(value=_id) #{name}
+      
   hr
-  button.start-game Start game
-  button.add-turn Add turn
+  unless started
+    button.start-game Start game
+  else
+    button.stop-game Stop game
+  button.add-turn Next turn
   
   each turns
     +turn
