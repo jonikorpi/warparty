@@ -6,24 +6,15 @@
 
 $font-size-multiplier: 16/16;
 $line: 1.382rem;
-$narrower-word-spacing: -0.236em;
-$max-width: $line * 28;
 
-$masthead-height: 14.6%;
-$new-height:      30%;
-$new-height-s:    20%;
-$tags-height:     100% - $masthead-height - $new-height;
-$tags-height-s:   100% - $masthead-height - $new-height-s;
+$row-count: 8;
+$col-count: 13;
+$board-height-ratio: $row-count/$col-count;
+$board-angle: 32deg;
+$character-angle: 7.6deg;
 
-$edge-gap: $line * 0.5;
-
-$card-padding: 3.4%;
-$card-border-width: 3px;
-$card-border-width-visited: $card-border-width;
-$card-border-radius: $card-border-width;
-
-$card-zoom: 0.944;
-$card-zoom-more: 1.0;
+$x-unit: 100% / $col-count;
+$y-unit: 100% / $row-count;
 
 $zoom-out-size: $line*2;
 
@@ -56,7 +47,7 @@ $hue-12: $hue + (360/$hue-increment) * 12;
 $hue-13: $hue + (360/$hue-increment) * 13;
 
 $background:      hsl($hue-1, 50%, 23.6%);
-$off-background:  hsl($hue-1, 50%, 14.6%);
+$off-background:  hsl($hue-1, 38.2%, 14.6%);
 $card-background: hsl($hue-1, 50%, 9%);
 
 $bright: hsl($hue, 23.6%, 76.4%);
@@ -81,6 +72,8 @@ $border:      hsl($hue-1, 9%, 41.4%);
 $highlight: hsl($hue, 76.4%, 61.8%);
 $purple-highlight: hsl($hue-1, 38.2%, 50%);
 $blue-highlight: hsl($hue-4, 91%, 66.6%);
+
+$shadow: hsla($hue-1, 50%, 5.6%, 0.236);
 
 //
 // Media queries
@@ -118,15 +111,13 @@ html {
 html {
   font-size: 100% * $font-size-multiplier;
   line-height: $line;
-  background: hsl($hue-1, 38.2%, 9%);
-  color: hsl($hue, 14.6%, 61.8%);
+  background: $background;
+  color: $body;
   -webkit-tap-highlight-color: hsla($hue-1, 100%, 61.8%, 0.5);
 }
 
 body {
-  max-width: $max-width;
-  margin: 0 auto;
-  padding: $line * 1.5;
+
 }
 
 a {
@@ -163,7 +154,95 @@ code {
   color: hsl($hue, 9%, 50%);
 }
 
+.absolute-0 {
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+}
+
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.game {
+  perspective: 50em;
+  margin: 0;
+}
+
+.grid {
+  margin: auto;
+  width: 100vmin;
+  height: 100vmin * $board-height-ratio;
+  transform: rotateX($board-angle);
+  transform-style: preserve-3d;
+  transform-origin: bottom;
+  border: 1px solid $off-background;
+}
+
+.row,
+.col {
+  border: solid $off-background;
+}
+
+.row {
+  height: 100 / $row-count *1%;
+  border-width: 2px 0;
+}
+
+.col {
+  float: left;
+  width: 100 / $col-count *1%;
+  height: 100%;
+  border-width: 0 2px;
+}
+
+.character {
+  width: $x-unit;
+  height: $y-unit;
+  color: $bright;
+  border: 2px solid $shadow;
+  border-radius: 50%;
+  transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle);
+  transform-origin: bottom;
+  position: absolute;
+  transition: $main-time $main-easing;
+  transition-property: transform, left, top, right, bottom;
+
+  &[data-team="1"] {
+    background: $blue;
+  }
+
+  &[data-team="2"] {
+    background: $red;
+  }
+
+  .tag {
+    word-break: break-word;
+    font-size: 10px;
+    line-height: 1;
+    padding: 3vmin 10px 0;
+    text-align: center;
+  }
+}
+
+@for $i from 0 through $col-count - 1 {
+  .x-pos-#{$i+1} { left: $i * $x-unit; }
+}
+
+@for $i from 0 through $row-count - 1 {
+  .y-pos-#{$i+1} { top: $i * $y-unit; }
+}
+
+.character-shadow {
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: $shadow;
+  border-radius: 50%;
+  transform: rotateY(-$board-angle) rotateX(180deg + $board-angle - $character-angle) scaleY(1.618);
+  transform-origin: bottom;
+}

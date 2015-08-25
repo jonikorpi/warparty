@@ -84,18 +84,17 @@ if Meteor.isClient
         {
           teamName: "Blue team"
           teamID: 1
-          teamSlots: [1,2,3]
+          teamSlots: [1,2,3,4]
         }
         {
           teamName: "Red team"
           teamID: 2
-          teamSlots: [1,2,3]
+          teamSlots: [1,2,3,4]
         }
       ]
 
     thisGameID: ->
       return @_id
-
 
   Template.game.events
 
@@ -125,6 +124,56 @@ if Meteor.isClient
       Meteor.call "setCharacterSlot", gameID, characterID, slot, team
 
       console.log "setting character #{characterID} for slot #{slot} in team #{team} for game #{gameID}"
+
+  #
+  # Character
+
+  Template.character.helpers
+
+  Template.character.events
+
+  Template.character.onRendered ->
+    self = this
+    slot = self.data.slot
+    team = self.data.team
+    character = self.$(".character")
+
+    # Set initial positions
+    switch slot
+      when 1
+        switch team
+          when 1
+            xPos = 1
+            yPos = 1
+          when 2
+            xPos = 13
+            yPos = 8
+      when 2
+        switch team
+          when 1
+            xPos = 1
+            yPos = 2
+          when 2
+            xPos = 13
+            yPos = 7
+      when 3
+        switch team
+          when 1
+            xPos = 1
+            yPos = 3
+          when 2
+            xPos = 13
+            yPos = 6
+      when 4
+        switch team
+          when 1
+            xPos = 1
+            yPos = 4
+          when 2
+            xPos = 13
+            yPos = 5
+
+    character.addClass "x-pos-#{xPos} y-pos-#{yPos}"
 
 #
 # Server
@@ -166,8 +215,9 @@ if Meteor.isServer
 
       Games.update {
         _id: gameID
-        "characters.slot": "#{team}.#{slot}"
-      }, $set: "characters.$.characterID": characterID
+        "characters.slotID": "#{team}.#{slot}"
+      }, $set:
+        "characters.$.characterID": characterID
       , (error, results) ->
         console.log "error: #{error}"
         console.log "affected: #{results}"
@@ -178,28 +228,52 @@ if Meteor.isServer
         started: false
         characters: [
           {
-            slot: "1.1"
-            characterID: ""
+            slotID: "1.1"
+            team: 1
+            slot: 1
+            characterID: false
           }
           {
-            slot: "1.2"
-            characterID: ""
+            slotID: "1.2"
+            team: 1
+            slot: 2
+            characterID: false
           }
           {
-            slot: "1.3"
-            characterID: ""
+            slotID: "1.3"
+            team: 1
+            slot: 3
+            characterID: false
           }
           {
-            slot: "2.1"
-            characterID: ""
+            slotID: "1.4"
+            team: 1
+            slot: 4
+            characterID: false
           }
           {
-            slot: "2.2"
-            characterID: ""
+            slotID: "2.1"
+            team: 2
+            slot: 1
+            characterID: false
           }
           {
-            slot: "2.3"
-            characterID: ""
+            slotID: "2.2"
+            team: 2
+            slot: 2
+            characterID: false
+          }
+          {
+            slotID: "2.3"
+            team: 2
+            slot: 3
+            characterID: false
+          }
+          {
+            slotID: "2.4"
+            team: 2
+            slot: 4
+            characterID: false
           }
         ]
         # , (error, results) ->

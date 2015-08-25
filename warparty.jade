@@ -38,12 +38,11 @@ head
 body
 
 template(name="layout")
-  h1 
-    a(href="/") Warparty
-  hr
   +yield
   
 template(name="home")
+  h1 
+    a(href="/") Warparty
   button.create-game Create a game
   ul
     each games
@@ -52,38 +51,63 @@ template(name="home")
   
 
 template(name="game")
-  .game(id=_id)
-    h1 Game ##{_id} 
-    small
-      strong #{currentTurn}
-      if started
-        strong (Started)
-      else
-        em (Not started)
-      span Created on 
-      time #{createdAt}
+  .game.absolute-0.no-margins(id=_id)
+    .game-header
+      h1 
+        a(href="/") Warparty
+        span —
+        a(href="/"+ _id) Game ##{_id} 
+      small
+        strong #{currentTurn}
+        if started
+          strong (Started)
+        else
+          em (Not started)
+        span Created on 
+        time #{createdAt}
     
     //- 
     //-  Character selection
     unless started
-      h2 Class selection
-      
-      each teams
-        .team(data-team=teamID)
-          h3 #{teamName}
-          each teamSlots
-            select.select-character(data-slot=this)
-              option(value="") Select…
-              each characterMap
-                option(value=_id) #{name}
+      .class-selection
+        each teams
+          .team(data-team=teamID)
+            h3 #{teamName}
+            each teamSlots
+              select.select-character(data-slot=this)
+                option(value="") Select…
+                each characterMap
+                  option(value=_id) #{name}
             
-    h2 Classes in play
-    ul
+    .grid.no-margins.absolute-0
+      .rows.absolute-0
+        .row#row-1
+        .row#row-2
+        .row#row-3
+        .row#row-4
+        .row#row-5
+        .row#row-6
+        .row#row-7
+        .row#row-8
+      
+      .cols.absolute-0 
+        .col#col-1
+        .col#col-2
+        .col#col-3
+        .col#col-4
+        .col#col-5
+        .col#col-6
+        .col#col-7
+        .col#col-8
+        .col#col-9
+        .col#col-10
+        .col#col-11
+        .col#col-12
+        .col#col-13
+      
       each characters
-        li
-          strong Class: 
-          = characterID 
-          = slot
+        if characterID
+          +character
         
     hr
     unless started
@@ -92,13 +116,17 @@ template(name="game")
       button.stop-game Stop game
       
     if started
-      hr
-      button.blue-move Play a blue move
-      button.red-move Play a red move
+      strong Click on a character to do stuff with it.
     
-    ul
-      each moves
-        +move
+    .move-log
+      ul
+        each moves
+          +move
     
 template(name="move")
   li #{this.description}
+  
+template(name="character")
+  .character(data-team=team data-slot=slot data-slotID=slotID data-characterID=characterID)
+    .tag=characterID
+    .character-shadow
