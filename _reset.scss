@@ -87,6 +87,7 @@ button {
 }
 
 button[type="button"] {
+  -webkit-appearance: none;
   appearance: none;
   background: none;
   border: none;
