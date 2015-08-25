@@ -52,51 +52,53 @@ template(name="home")
   
 
 template(name="game")
-  h1 Game ##{_id} 
-  small
-    strong #{currentTurn}
-    if started
-      strong (Started)
-    else
-      em (Not started)
-    span Created on 
-    time #{createdAt}
-  
-  //- 
-  //-  Character selection
-  unless started
-    h2 Class selection
+  .game(id=_id)
+    h1 Game ##{_id} 
+    small
+      strong #{currentTurn}
+      if started
+        strong (Started)
+      else
+        em (Not started)
+      span Created on 
+      time #{createdAt}
     
-    h3 Blue team
-    each slots
-      select.select-character(data-team="1" data-slot=this)
-        each characters
-          option(value=_id) #{name}
-    
-    h3 Red team
-    each slots
-      select.select-character(data-team="2" data-slot=this)
-        each characters
-          option(value=_id) #{name}
+    //- 
+    //-  Character selection
+    unless started
+      h2 Class selection
       
-  hr
-  unless started
-    button.start-game Start game
-  else
-    button.stop-game Stop game
-  button.add-turn Next turn
-  
-  each turns
-    +turn
+      each teams
+        .team(data-team=teamID)
+          h3 #{teamName}
+          each teamSlots
+            select.select-character(data-slot=this)
+              option(value="") Select…
+              each characterMap
+                option(value=_id) #{name}
+            
+    h2 Classes in play
+    ul
+      each characters
+        li
+          strong Class: 
+          = characterID 
+          = slot
+        
+    hr
+    unless started
+      button.start-game Start game
+    else
+      button.stop-game Stop game
+      
+    if started
+      hr
+      button.blue-move Play a blue move
+      button.red-move Play a red move
     
-template(name="turn")
-  hr
-  h2 Turn #{_id}
-  button.blue-move Play a blue move
-  button.red-move Play a red move
-  ul
-    each moves
-      +move
+    ul
+      each moves
+        +move
     
 template(name="move")
   li #{this.description}

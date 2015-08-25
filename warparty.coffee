@@ -2,7 +2,7 @@
 # Collections
 
 Games = new Mongo.Collection("games")
-Turns = new Mongo.Collection("turns")
+Moves = new Mongo.Collection("moves")
 Characters = new Mongo.Collection("characters")
 
 #
@@ -30,6 +30,13 @@ Router.route "/:_id",
 if Meteor.isClient
 
   #
+  # Methods on the client
+
+  Meteor.methods
+    # routeToGame: (gameID) ->
+    #   Router.go 'game', _id: gameID
+
+  #
   # Layout
 
   Template.layout.helpers
@@ -55,34 +62,39 @@ if Meteor.isClient
       console.log "creating a game"
       Meteor.call "createGame"
 
-      # , (gameID) ->
-      #   Router.go 'game', _id: gameID
-
-      # Games.insert
-      #   createdAt: new Date()
-      #   started: false
-      #   characters: []
-      #   , (error, results) ->
-      #     Router.go 'game', _id: results
-
 
   #
   # Game
 
   Template.game.helpers
 
-    turns: ->
-      turns = Turns.find gameID: @_id
-      console.log "getting turns for game #{@_id}:"
+    moves: ->
+      moves = Moves.find gameID: @_id
+      console.log "getting moves for game #{@_id}:"
       # console.log turns.fetch()
-      return turns
+      return moves
 
-    characters: ->
+    characterMap: ->
       console.log "getting all characters"
+      # console.log Characters.find({})
       return Characters.find({})
 
-    slots: ->
-      return [1, 2, 3]
+    teams: ->
+      return [
+        {
+          teamName: "Blue team"
+          teamID: 1
+          teamSlots: [1,2,3]
+        }
+        {
+          teamName: "Red team"
+          teamID: 2
+          teamSlots: [1,2,3]
+        }
+      ]
+
+    thisGameID: ->
+      return @_id
 
 
   Template.game.events
@@ -95,43 +107,24 @@ if Meteor.isClient
       console.log "stopping game #{@_id}"
       Meteor.call "stopGame", @_id
 
-    "click .add-turn": ->
-      console.log "ending turn #{@_id}"
-      Meteor.call "createTurn", @_id
-
     "click .blue-move": ->
-      console.log "adding move to turn #{@_id}"
-      Meteor.call "addMove", @_id, "Blue player makes a move"
+      console.log "adding move to game #{@_id}"
+      Meteor.call "createMove", @_id, "Blue player makes a move"
 
     "click .red-move": ->
-      console.log "adding move to turn #{@_id}"
-      Meteor.call "addMove", @_id, "Red player makes a move"
+      console.log "adding move to game #{@_id}"
+      Meteor.call "createMove", @_id, "Red player makes a move"
 
     "change .select-character": (event) ->
       select = $(event.target)
-      team = select.data("team")
+      team = select.closest(".team").data("team")
       slot = select.data("slot")
       characterID = select.val()
+      gameID = select.closest(".game").attr("id")
 
-      Meteor.call "setCharacterSlot", @_id, characterID, slot, team
+      Meteor.call "setCharacterSlot", gameID, characterID, slot, team
 
-      console.log "**NOT** setting character #{characterID} for slot #{slot} in team #{team}"
-
-    # "submit .select-characters": (event) ->
-    #   event.preventDefault()
-    #   form = event.target
-    #   teamID = form.teamID.value
-    #
-    #   console.log "setting characters for team #{teamID}"
-    #
-    #   Games.update @_id,
-    #     $push:
-    #       characters:
-    #         $each: [
-    #           {characterID: $(form.character1).val(), teamID: teamID}
-    #           {characterID: $(form.character2).val(), teamID: teamID}
-    #           {characterID: $(form.character3).val(), teamID: teamID}
-    #         ]
+      console.log "setting character #{characterID} for slot #{slot} in team #{team} for game #{gameID}"
 
 #
 # Server
@@ -163,42 +156,67 @@ if Meteor.isServer
       Characters.insert
         name: character.name
 
-#
-# Methods
+  #
+  # Methods on the server
 
-Meteor.methods
+  Meteor.methods
 
-  setCharacterSlot: (gameID, characterID, slot, team) ->
-    return
-    # Games.upsert { @gameID, "characters.team": team, "characters.slot": slot },
-    #   $set:
-    #     "characters.$.characterID": characterID
+    setCharacterSlot: (gameID, characterID, slot, team) ->
+      console.log gameID, characterID, slot, team
 
-  createGame: ->
-    Games.insert
-      createdAt: new Date()
-      started: false
-      characters: []
+      Games.update {
+        _id: gameID
+        "characters.slot": "#{team}.#{slot}"
+      }, $set: "characters.$.characterID": characterID
       , (error, results) ->
-        Router.go 'game', _id: results
+        console.log "error: #{error}"
+        console.log "affected: #{results}"
 
-  startGame: (gameID) ->
-    Games.update gameID,
-      $set:
-        started: true
-
-  stopGame: (gameID) ->
-    Games.update gameID,
-      $set:
+    createGame: ->
+      Games.insert
+        createdAt: new Date()
         started: false
+        characters: [
+          {
+            slot: "1.1"
+            characterID: ""
+          }
+          {
+            slot: "1.2"
+            characterID: ""
+          }
+          {
+            slot: "1.3"
+            characterID: ""
+          }
+          {
+            slot: "2.1"
+            characterID: ""
+          }
+          {
+            slot: "2.2"
+            characterID: ""
+          }
+          {
+            slot: "2.3"
+            characterID: ""
+          }
+        ]
+        # , (error, results) ->
+          # Meteor.call "routeToGame", results
 
-  createTurn: (gameID) ->
-    Turns.insert
-      createdAt: new Date()
-      gameID: gameID
+    startGame: (gameID) ->
+      Games.update gameID,
+        $set:
+          started: true
 
-  addMove: (gameID, description) ->
-    Turns.update gameID,
-      $push:
-        moves:
-          description: description
+    stopGame: (gameID) ->
+      Games.update gameID,
+        $set:
+          started: false
+
+    createMove: (gameID, description) ->
+      Moves.insert
+        createdAt: new Date()
+        gameID: gameID
+        description: description
