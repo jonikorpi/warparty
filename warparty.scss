@@ -16,7 +16,7 @@ $character-angle: 7.6deg;
 $x-unit: 100% / $col-count;
 $y-unit: 100% / $row-count;
 
-$zoom-out-size: $line*2;
+$grid-border-width: 1px;
 
 $main-easing:        cubic-bezier(0.236, 0.000, 0.236, 1.000);
 $reverse-easing:     cubic-bezier(0.618, 0.000, 0.236, 1.000);
@@ -66,8 +66,9 @@ $cyan:   hsl($hue-7, 38.2%, 50.0%);
 $green:  hsl($hue-2, 23.6%, 50.0%);
 $purple: hsl($hue-1, 50.0%, 66.6%);
 
-$shadow:      hsl($hue-1, 50%, 5.6%);
-$border:      hsl($hue-1, 9%, 41.4%);
+$shadow: hsl($hue-1, 50%, 5.6%);
+$border: hsl($hue-1, 9%, 41.4%);
+$tile:  hsla($hue-1, 9%, 61.8%, 0.056);
 
 $highlight: hsl($hue, 76.4%, 61.8%);
 $purple-highlight: hsl($hue-1, 38.2%, 50%);
@@ -102,7 +103,7 @@ $retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
 // Font families
 
 html {
-  font-family: serif;
+  font-family: sans-serif;
 }
 
 //
@@ -174,6 +175,11 @@ html, body {
   margin: 0;
 }
 
+.rows, .cols,
+.character-shadow {
+  pointer-events: none;
+}
+
 .grid {
   margin: auto;
   width: 100vmin;
@@ -181,68 +187,111 @@ html, body {
   transform: rotateX($board-angle);
   transform-style: preserve-3d;
   transform-origin: bottom;
-  border: 1px solid $off-background;
+  background: $tile;
 }
 
 .row,
 .col {
-  border: solid $off-background;
+  border: solid $background;
 }
 
 .row {
   height: 100 / $row-count *1%;
-  border-width: 2px 0;
+  border-width: $grid-border-width 0;
 }
 
 .col {
   float: left;
   width: 100 / $col-count *1%;
   height: 100%;
-  border-width: 0 2px;
+  border-width: 0 $grid-border-width;
 }
 
 .character {
+  cursor: pointer;
   width: $x-unit;
   height: $y-unit;
-  color: $bright;
-  border: 2px solid $shadow;
-  border-radius: 50%;
-  transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle);
-  transform-origin: bottom;
   position: absolute;
   transition: $main-time $main-easing;
-  transition-property: transform, left, top, right, bottom;
-
-  &[data-team="1"] {
-    background: $blue;
-  }
-
-  &[data-team="2"] {
-    background: $red;
-  }
-
-  .tag {
-    word-break: break-word;
-    font-size: 10px;
-    line-height: 1;
-    padding: 3vmin 10px 0;
-    text-align: center;
-  }
-}
-
-@for $i from 0 through $col-count - 1 {
-  .x-pos-#{$i+1} { left: $i * $x-unit; }
-}
-
-@for $i from 0 through $row-count - 1 {
-  .y-pos-#{$i+1} { top: $i * $y-unit; }
+  transition-property: left, top, right, bottom;
 }
 
 .character-shadow {
-  position: absolute;
-  left: 0; top: 0; right: 0; bottom: 0;
   background: $shadow;
   border-radius: 50%;
-  transform: rotateY(-$board-angle) rotateX(180deg + $board-angle - $character-angle) scaleY(1.618);
+  transform: translateY(-100%) scaleY(1.382) rotateX(180deg);
   transform-origin: bottom;
+  transform-style: preserve-3d;
+}
+
+.character-base {
+  transform-style: preserve-3d;
+  border-radius: 50%;
+  border: 1vmin solid $shadow;
+
+  .character[data-team="1"] & {
+    background: $blue;
+  }
+
+  .character[data-team="2"] & {
+    background: $red;
+  }
+
+  .character.selected & {
+    border-color: $bright;
+  }
+}
+
+.character-model {
+  width: 100%;
+  height: 100%;
+  transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle);
+  transform-origin: bottom;
+  transform-style: preserve-3d;
+  word-break: break-word;
+  font-size: 10px;
+  line-height: 1;
+  // background: $bright;
+  // color: $off-background;
+  color: $bright;
+}
+
+.character-controls {
+  position: absolute;
+  z-index: 1 !important;
+  width: $x-unit;
+  height: $y-unit;
+  transition: all $main-time $main-easing;
+  transform: scale(0);
+
+  &.active {
+    transform: scale(1);
+  }
+}
+
+button.move {
+  position: absolute;
+  display: block;
+  background: rgba($green, 0.236);
+  color: $bright;
+  font-size: 4vmin;
+  width: 100%;
+  height: 100%;
+  transition: transform $main-time $main-easing;
+}
+
+button.move-left  { right: 100%; top: 0;       [data-x-pos="1"] &             { transform: scale(0) } }
+button.move-right { left:  100%; top: 0;       [data-x-pos="#{$col-count}"] & { transform: scale(0) } }
+button.move-up    { left:     0; bottom: 100%; [data-y-pos="1"] &             { transform: scale(0) } }
+button.move-down  { left:     0; top:    100%; [data-y-pos="#{$row-count}"] & { transform: scale(0) } }
+
+//
+// Positions
+
+@for $i from 0 through $col-count - 1 {
+  [data-x-pos="#{$i+1}"] { left: $i * $x-unit; }
+}
+
+@for $i from 0 through $row-count - 1 {
+  [data-y-pos="#{$i+1}"] { top: $i * $y-unit; z-index: 1 + $i; }
 }

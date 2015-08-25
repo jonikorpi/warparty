@@ -105,6 +105,8 @@ template(name="game")
         .col#col-12
         .col#col-13
       
+      +characterControls
+      
       each characters
         if characterID
           +character
@@ -116,7 +118,13 @@ template(name="game")
       button.stop-game Stop game
       
     if started
-      strong Click on a character to do stuff with it.
+      span
+        strong Select a character 
+        span and use your
+        strong arrow keys
+        span or 
+        strong click on the green tiles 
+        span to move.
     
     .move-log
       ul
@@ -128,5 +136,13 @@ template(name="move")
   
 template(name="character")
   .character(data-team=team data-slot=slot data-slotID=slotID data-characterID=characterID)
-    .tag=characterID
-    .character-shadow
+    .character-shadow.absolute-0
+    .character-base.absolute-0
+    .character-model.absolute-0
+
+template(name="characterControls")
+  .character-controls
+    button.move.move-left(type="button") &larr;
+    button.move.move-right(type="button") &rarr;
+    button.move.move-up(type="button") &uarr;
+    button.move.move-down(type="button") &darr;

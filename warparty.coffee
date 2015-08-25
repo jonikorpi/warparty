@@ -1,4 +1,10 @@
 #
+# GlobalConfig
+
+$rowCount = 8
+$colCount = 13
+
+#
 # Collections
 
 Games = new Mongo.Collection("games")
@@ -28,6 +34,44 @@ Router.route "/:_id",
 # Client
 
 if Meteor.isClient
+
+  #
+  # Non-Meteor methods
+
+  moveCharacter = (direction) ->
+    character = $(".character.selected")
+    movables = $(".character.selected, .character-controls")
+    xPos = +character.attr("data-x-pos")
+    yPos = +character.attr("data-y-pos")
+
+    switch direction
+      when "left"
+        unless xPos == 1
+          movables.attr( "data-x-pos", xPos-1 )
+      when "right"
+        unless xPos >= $colCount
+          movables.attr( "data-x-pos", xPos+1 )
+      when "up"
+        unless yPos == 1
+          movables.attr( "data-y-pos", yPos-1 )
+      when "down"
+        unless yPos >= $rowCount
+          movables.attr( "data-y-pos", yPos+1 )
+
+  $(document).keydown (e) ->
+    if $(".character.selected").length > 0
+      switch e.which
+        when 37 # left
+          moveCharacter("left")
+        when 38 # up
+          moveCharacter("up")
+        when 39 # right
+          moveCharacter("right")
+        when 40 # down
+          moveCharacter("down")
+        else
+          return
+      e.preventDefault()
 
   #
   # Methods on the client
@@ -132,6 +176,22 @@ if Meteor.isClient
 
   Template.character.events
 
+    "click .character": (event) ->
+      character = $(event.target).closest(".character")
+      otherCharacters = $(".character").not(character)
+      controls = $(".character-controls")
+
+      otherCharacters.removeClass("selected")
+
+      if character.hasClass "selected"
+        character.removeClass "selected"
+        controls.removeClass("active")
+      else
+        character.addClass "selected"
+        controls
+          .attr { "data-x-pos": character.attr("data-x-pos"), "data-y-pos": character.attr("data-y-pos") }
+          .addClass("active")
+
   Template.character.onRendered ->
     self = this
     slot = self.data.slot
@@ -146,34 +206,53 @@ if Meteor.isClient
             xPos = 1
             yPos = 1
           when 2
-            xPos = 13
-            yPos = 8
+            xPos = $colCount
+            yPos = $rowCount
       when 2
         switch team
           when 1
             xPos = 1
             yPos = 2
           when 2
-            xPos = 13
-            yPos = 7
+            xPos = $colCount
+            yPos = $rowCount-1
       when 3
         switch team
           when 1
             xPos = 1
             yPos = 3
           when 2
-            xPos = 13
-            yPos = 6
+            xPos = $colCount
+            yPos = $rowCount-2
       when 4
         switch team
           when 1
             xPos = 1
             yPos = 4
           when 2
-            xPos = 13
-            yPos = 5
+            xPos = $colCount
+            yPos = $rowCount-3
 
-    character.addClass "x-pos-#{xPos} y-pos-#{yPos}"
+    character.attr { "data-x-pos": xPos, "data-y-pos": yPos }
+
+  #
+  # Character controls
+
+  Template.characterControls.helpers
+
+  Template.characterControls.events
+
+    "click .move-left": (event) ->
+      moveCharacter("left")
+
+    "click .move-right": (event) ->
+      moveCharacter("right")
+
+    "click .move-up": (event) ->
+      moveCharacter("up")
+
+    "click .move-down": (event) ->
+      moveCharacter("down")
 
 #
 # Server
