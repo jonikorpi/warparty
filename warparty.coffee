@@ -1,8 +1,31 @@
 #
-# GlobalConfig
+# Globals
 
-$rowCount = 8
-$colCount = 13
+Game = {}
+Game.rowCount = 8
+Game.colCount = 13
+Game.gameID = false
+Game.movesPerCharacter = 2
+Game.charactersPerTeam = 4
+
+Game.bindArrowKeys = ->
+  $(document).on "keydown", (event) ->
+    if $(".character.selected").length > 0
+      switch event.which
+        when 37 # left
+          moveCharacter("left")
+        when 38 # up
+          moveCharacter("up")
+        when 39 # right
+          moveCharacter("right")
+        when 40 # down
+          moveCharacter("down")
+        else
+          return
+      event.preventDefault()
+
+Game.unbindArrowKeys = ->
+  $(document).off "keydown"
 
 #
 # Collections
@@ -28,6 +51,7 @@ Router.route "/:_id",
     targetGame = Games.findOne _id: @.params._id
     console.log "routing to game #{@.params._id}"
     console.log targetGame
+    Game.gameID = @.params._id
     return targetGame
 
 #
@@ -40,38 +64,26 @@ if Meteor.isClient
 
   moveCharacter = (direction) ->
     character = $(".character.selected")
+    slotID = character.attr("data-slotID")
     movables = $(".character.selected, .character-controls")
     xPos = +character.attr("data-x-pos")
     yPos = +character.attr("data-y-pos")
+
+    Meteor.call "createMove", Game.gameID, "character #{slotID} moved from #{xPos}/#{yPos} to #{direction}"
 
     switch direction
       when "left"
         unless xPos == 1
           movables.attr( "data-x-pos", xPos-1 )
       when "right"
-        unless xPos >= $colCount
+        unless xPos >= Game.colCount
           movables.attr( "data-x-pos", xPos+1 )
       when "up"
         unless yPos == 1
           movables.attr( "data-y-pos", yPos-1 )
       when "down"
-        unless yPos >= $rowCount
+        unless yPos >= Game.rowCount
           movables.attr( "data-y-pos", yPos+1 )
-
-  $(document).keydown (e) ->
-    if $(".character.selected").length > 0
-      switch e.which
-        when 37 # left
-          moveCharacter("left")
-        when 38 # up
-          moveCharacter("up")
-        when 39 # right
-          moveCharacter("right")
-        when 40 # down
-          moveCharacter("down")
-        else
-          return
-      e.preventDefault()
 
   #
   # Methods on the client
@@ -113,7 +125,7 @@ if Meteor.isClient
   Template.game.helpers
 
     moves: ->
-      moves = Moves.find gameID: @_id
+      moves = Moves.find gameID: @_id, {sort: {createdAt: -1}}
       console.log "getting moves for game #{@_id}:"
       # console.log turns.fetch()
       return moves
@@ -206,32 +218,32 @@ if Meteor.isClient
             xPos = 1
             yPos = 1
           when 2
-            xPos = $colCount
-            yPos = $rowCount
+            xPos = Game.colCount
+            yPos = Game.rowCount
       when 2
         switch team
           when 1
             xPos = 1
             yPos = 2
           when 2
-            xPos = $colCount
-            yPos = $rowCount-1
+            xPos = Game.colCount
+            yPos = Game.rowCount-1
       when 3
         switch team
           when 1
             xPos = 1
             yPos = 3
           when 2
-            xPos = $colCount
-            yPos = $rowCount-2
+            xPos = Game.colCount
+            yPos = Game.rowCount-2
       when 4
         switch team
           when 1
             xPos = 1
             yPos = 4
           when 2
-            xPos = $colCount
-            yPos = $rowCount-3
+            xPos = Game.colCount
+            yPos = Game.rowCount-3
 
     character.attr { "data-x-pos": xPos, "data-y-pos": yPos }
 
@@ -305,6 +317,8 @@ if Meteor.isServer
       Games.insert
         createdAt: new Date()
         started: false
+        turn: 0
+        moves: 0
         characters: [
           {
             slotID: "1.1"
@@ -362,6 +376,7 @@ if Meteor.isServer
       Games.update gameID,
         $set:
           started: true
+          turn: 1
 
     stopGame: (gameID) ->
       Games.update gameID,
@@ -369,6 +384,20 @@ if Meteor.isServer
           started: false
 
     createMove: (gameID, description) ->
+      gameWithMoves = Games.findOne gameID,
+        fields:
+          moves: 1
+      moves = gameWithMoves.moves
+
+      if moves >= Game.movesPerCharacter * Game.charactersPerTeam
+        newMoves = 0
+      else
+        newMoves = moves + 1
+
+      Games.update gameID,
+        $set:
+          moves: newMoves
+
       Moves.insert
         createdAt: new Date()
         gameID: gameID

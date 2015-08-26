@@ -111,7 +111,7 @@ html {
 
 html {
   font-size: 100% * $font-size-multiplier;
-  line-height: $line;
+  line-height: $line / 1rem;
   background: $background;
   color: $body;
   -webkit-tap-highlight-color: hsla($hue-1, 100%, 61.8%, 0.5);
@@ -176,7 +176,8 @@ html, body {
 }
 
 .rows, .cols,
-.character-shadow {
+.character-shadow,
+.character-model {
   pointer-events: none;
 }
 
@@ -216,14 +217,6 @@ html, body {
   transition-property: left, top, right, bottom;
 }
 
-.character-shadow {
-  background: $shadow;
-  border-radius: 50%;
-  transform: translateY(-100%) scaleY(1.382) rotateX(180deg);
-  transform-origin: bottom;
-  transform-style: preserve-3d;
-}
-
 .character-base {
   transform-style: preserve-3d;
   border-radius: 50%;
@@ -242,6 +235,25 @@ html, body {
   }
 }
 
+.character-model,
+.character-shadow {
+  background: url("images/default-character.svg") center bottom no-repeat;
+  background-size: contain;
+}
+
+.character-shadow {
+  -webkit-filter: grayscale(100%) contrast(0.056) brightness(0.236) blur(0.375vmin);
+          filter: grayscale(100%) contrast(0.056) brightness(0.236) blur(0.375vmin);
+  transform-origin: bottom;
+  transform-style: preserve-3d;
+  opacity: 0.382;
+    transform: translateY(-55%) scaleY(1.382) skewX(-$board-angle) rotateX(180deg);
+
+  [data-team="2"] & {
+    transform: translateY(-55%) scaleY(1.382) skewX(-$board-angle) rotateX(180deg) scaleX(-1);
+  }
+}
+
 .character-model {
   width: 100%;
   height: 100%;
@@ -254,6 +266,10 @@ html, body {
   // background: $bright;
   // color: $off-background;
   color: $bright;
+
+  [data-team="2"] & {
+    transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle) scaleX(-1);
+  }
 }
 
 .character-controls {
@@ -294,4 +310,18 @@ button.move-down  { left:     0; top:    100%; [data-y-pos="#{$row-count}"] & { 
 
 @for $i from 0 through $row-count - 1 {
   [data-y-pos="#{$i+1}"] { top: $i * $y-unit; z-index: 1 + $i; }
+}
+
+//
+// Move log
+
+.move-log {
+  position: absolute;
+  left: 0; bottom: 0;
+  background: $off-background;
+  font-size: 0.75rem;
+  padding: $line;
+  max-width: 23.6vw;
+  max-height: 38.2vh;
+  overflow: auto;
 }

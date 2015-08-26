@@ -116,28 +116,20 @@ template(name="game")
       button.start-game Start game
     else
       button.stop-game Stop game
-      
-    if started
-      span
-        strong Select a character 
-        span and use your
-        strong arrow keys
-        span or 
-        strong click on the green tiles 
-        span to move.
     
-    .move-log
-      ul
-        each moves
-          +move
+    if started
+      .move-log
+        ul
+          each moves
+            +move
     
 template(name="move")
   li #{this.description}
   
 template(name="character")
   .character(data-team=team data-slot=slot data-slotID=slotID data-characterID=characterID)
-    .character-shadow.absolute-0
     .character-base.absolute-0
+    .character-shadow.absolute-0
     .character-model.absolute-0
 
 template(name="characterControls")
