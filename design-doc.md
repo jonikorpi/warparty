@@ -27,9 +27,6 @@ Strike
 Root
 - Character can't move during the next turn
 
-Trap
-- Maybe bad idea, since it requires hidden information?
-
 Stun
 - Character can't act during the next turn
 
@@ -48,12 +45,45 @@ Shield
 Push & Pull & Throw
 - Moves another character
 
+Song
+- Character’s next used movement ability has +1 range
+
+# Skill combinations?
+
+- Increased attack range if rooted
+- A strike that can destroy blocks
+- A strike that can explode blocks, striking everything around them
+
 # Classes
 
 Pre-built classes to choose from, each with 3–5 skills made from the skill types above.
 
 # Visual helpers
 
-Movement skill possibilities are shown as overlays when highlighting characters.
+- Movement skill possibilities are shown as overlays when highlighting characters.
+- Teams are distinguished with blue and red colors.
+- 1,2,3,4 for selecting characters
+- QWER for selecting skills
 
-Teams are distinguished with blue and red colors.
+# Progression
+
+- Lock certain classes until x plays or wins? Requires accounts.
+- Communal progression: x global wins unlocks something for everyone? Felt shitty in other games.
+- “Progression” through trying out different class combinations?
+
+# How to play with strangers
+
+- Queue system? Does it require accounts?
+- Create a public game and advertise it? Urgh.
+- Class selection can happen during queuing.
+
+# Playing vs. spectating
+
+- One URL for spectating
+- Separate secret URLs for the two players
+
+# Money
+
+Package for iOS+Android with Meteor and for OSX+Windows with Electron? Submit to app stores and Steam? Keep free web version?
+
+Lock certain classes until a one-time Stripe payment? Requires accounts, so ugh.
