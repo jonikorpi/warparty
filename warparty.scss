@@ -208,6 +208,9 @@ html, body {
   border-width: 0 $grid-border-width;
 }
 
+//
+// Characters
+
 .character {
   cursor: pointer;
   width: $x-unit;
@@ -271,6 +274,28 @@ html, body {
     transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle) scaleX(-1);
   }
 }
+
+.moves-tag {
+  position: absolute;
+  bottom: 0; right: 0;
+  text-align: center;
+  background: $green;
+  color: $off-background;
+  border-radius: 50%;
+  width:  $line * 0.854;
+  height: $line * 0.854;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.854rem;
+
+  &.moves-zero {
+    background: $off-background;
+    color: $dim;
+  }
+}
+
+//
+// Character controls
 
 .character-controls {
   position: absolute;

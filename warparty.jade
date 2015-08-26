@@ -131,6 +131,10 @@ template(name="character")
     .character-base.absolute-0
     .character-shadow.absolute-0
     .character-model.absolute-0
+    if movesLeft
+      .moves-tag=movesLeft
+    else
+      .moves-tag.moves-zero=movesLeft
 
 template(name="characterControls")
   .character-controls
