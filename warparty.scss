@@ -242,8 +242,8 @@ html, body {
 }
 
 .character-shadow {
-  -webkit-filter: grayscale(100%) contrast(0.056) brightness(0.236) blur(0.375vmin);
-          filter: grayscale(100%) contrast(0.056) brightness(0.236) blur(0.375vmin);
+  -webkit-filter: grayscale(100%) contrast(0.056) brightness(0.236) blur(0.2vmin);
+          filter: grayscale(100%) contrast(0.056) brightness(0.236) blur(0.2vmin);
   transform-origin: bottom;
   transform-style: preserve-3d;
   opacity: 0.382;
