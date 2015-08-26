@@ -8,24 +8,24 @@ Game.gameID = false
 Game.movesPerCharacter = 2
 Game.charactersPerTeam = 4
 
-Game.bindArrowKeys = ->
-  $(document).on "keydown", (event) ->
-    if $(".character.selected").length > 0
-      switch event.which
-        when 37 # left
-          moveCharacter("left")
-        when 38 # up
-          moveCharacter("up")
-        when 39 # right
-          moveCharacter("right")
-        when 40 # down
-          moveCharacter("down")
-        else
-          return
-      event.preventDefault()
-
-Game.unbindArrowKeys = ->
-  $(document).off "keydown"
+# Game.bindArrowKeys = ->
+#   $(document).on "keydown", (event) ->
+#     if $(".character.selected").length > 0
+#       switch event.which
+#         when 37 # left
+#           moveCharacter("left")
+#         when 38 # up
+#           moveCharacter("up")
+#         when 39 # right
+#           moveCharacter("right")
+#         when 40 # down
+#           moveCharacter("down")
+#         else
+#           return
+#       event.preventDefault()
+#
+# Game.unbindArrowKeys = ->
+#   $(document).off "keydown"
 
 #
 # Collections
@@ -62,28 +62,21 @@ if Meteor.isClient
   #
   # Non-Meteor methods
 
-  moveCharacter = (direction) ->
+  moveCharacter = (x, y) ->
     character = $(".character.selected")
     slotID = character.attr("data-slotID")
     movables = $(".character.selected, .character-controls")
     xPos = +character.attr("data-x-pos")
     yPos = +character.attr("data-y-pos")
 
-    Meteor.call "createMove", Game.gameID, "character #{slotID} moved from #{xPos}/#{yPos} to #{direction}"
+    newX = xPos + x
+    newY = yPos + y
 
-    switch direction
-      when "left"
-        unless xPos == 1
-          movables.attr( "data-x-pos", xPos-1 )
-      when "right"
-        unless xPos >= Game.colCount
-          movables.attr( "data-x-pos", xPos+1 )
-      when "up"
-        unless yPos == 1
-          movables.attr( "data-y-pos", yPos-1 )
-      when "down"
-        unless yPos >= Game.rowCount
-          movables.attr( "data-y-pos", yPos+1 )
+    if newX < 1 || newX > Game.colCount || newY < 1 || newY > Game.rowCount
+      return false
+    else
+      movables.attr( {"data-x-pos": newX, "data-y-pos": newY} )
+      Meteor.call "createMove", Game.gameID, slotID, newX, newY, "character #{slotID} moved to #{newX},#{newY}"
 
   #
   # Methods on the client
@@ -179,7 +172,7 @@ if Meteor.isClient
 
       Meteor.call "setCharacterSlot", gameID, characterID, slot, team
 
-      console.log "setting character #{characterID} for slot #{slot} in team #{team} for game #{gameID}"
+      console.log "setting character #{characterID} in game #{gameID}"
 
   #
   # Character
@@ -255,16 +248,16 @@ if Meteor.isClient
   Template.characterControls.events
 
     "click .move-left": (event) ->
-      moveCharacter("left")
+      moveCharacter(-1, 0)
 
     "click .move-right": (event) ->
-      moveCharacter("right")
+      moveCharacter(1, 0)
 
     "click .move-up": (event) ->
-      moveCharacter("up")
+      moveCharacter(0, -1)
 
     "click .move-down": (event) ->
-      moveCharacter("down")
+      moveCharacter(0, 1)
 
 #
 # Server
@@ -302,16 +295,14 @@ if Meteor.isServer
   Meteor.methods
 
     setCharacterSlot: (gameID, characterID, slot, team) ->
-      console.log gameID, characterID, slot, team
+      slotID = "#{team}.#{slot}"
+      console.log "slotID is #{slotID}"
 
       Games.update {
         _id: gameID
-        "characters.slotID": "#{team}.#{slot}"
+        "characters.slotID": slotID
       }, $set:
         "characters.$.characterID": characterID
-      , (error, results) ->
-        console.log "error: #{error}"
-        console.log "affected: #{results}"
 
     createGame: ->
       Games.insert
@@ -325,48 +316,56 @@ if Meteor.isServer
             team: 1
             slot: 1
             characterID: false
+            movesLeft: Game.movesPerCharacter
           }
           {
             slotID: "1.2"
             team: 1
             slot: 2
             characterID: false
+            movesLeft: Game.movesPerCharacter
           }
           {
             slotID: "1.3"
             team: 1
             slot: 3
             characterID: false
+            movesLeft: Game.movesPerCharacter
           }
           {
             slotID: "1.4"
             team: 1
             slot: 4
             characterID: false
+            movesLeft: Game.movesPerCharacter
           }
           {
             slotID: "2.1"
             team: 2
             slot: 1
             characterID: false
+            movesLeft: Game.movesPerCharacter
           }
           {
             slotID: "2.2"
             team: 2
             slot: 2
             characterID: false
+            movesLeft: Game.movesPerCharacter
           }
           {
             slotID: "2.3"
             team: 2
             slot: 3
             characterID: false
+            movesLeft: Game.movesPerCharacter
           }
           {
             slotID: "2.4"
             team: 2
             slot: 4
             characterID: false
+            movesLeft: Game.movesPerCharacter
           }
         ]
         # , (error, results) ->
@@ -383,22 +382,30 @@ if Meteor.isServer
         $set:
           started: false
 
-    createMove: (gameID, description) ->
-      gameWithMoves = Games.findOne gameID,
-        fields:
-          moves: 1
-      moves = gameWithMoves.moves
+    createMove: (gameID, slotID, newX, newY, description) ->
+      characterRecord = Games.findOne {
+        _id: gameID
+        "characters.slotID": slotID
+      }, fields: {"characters.$.movesLeft": 1}
 
-      if moves >= Game.movesPerCharacter * Game.charactersPerTeam
-        newMoves = 0
+      currentMoves = characterRecord.characters[0].movesLeft
+
+      if currentMoves == 0
+        return
       else
-        newMoves = moves + 1
+        newMoves = currentMoves - 1
 
-      Games.update gameID,
-        $set:
-          moves: newMoves
+        Games.update {
+          _id: gameID
+          "characters.slotID": slotID
+        }, $set:
+          "characters.$.movesLeft": newMoves
 
-      Moves.insert
-        createdAt: new Date()
-        gameID: gameID
-        description: description
+        Moves.insert
+          createdAt: new Date()
+          gameID: gameID
+          description: description
+          slotID: slotID
+          type: "move"
+          targets:
+            [x: newX, y: newY]

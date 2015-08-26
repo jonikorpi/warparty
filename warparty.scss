@@ -247,10 +247,10 @@ html, body {
   transform-origin: bottom;
   transform-style: preserve-3d;
   opacity: 0.382;
-    transform: translateY(-55%) scaleY(1.382) skewX(-$board-angle) rotateX(180deg);
+    transform: translateY(-50%) scaleY(0.854) skewX(-$character-angle) rotateX(180deg);
 
   [data-team="2"] & {
-    transform: translateY(-55%) scaleY(1.382) skewX(-$board-angle) rotateX(180deg) scaleX(-1);
+    transform: translateY(-50%) scaleY(0.854) skewX(-$character-angle) rotateX(180deg) scaleX(-1);
   }
 }
 
