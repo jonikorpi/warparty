@@ -10,8 +10,8 @@ $line: 1.382rem;
 $row-count: 8;
 $col-count: 13;
 $board-height-ratio: $row-count/$col-count;
-$board-angle: 32deg;
-$character-angle: 7.6deg;
+$board-angle: 23.6deg;
+$character-angle: 12.4deg;
 
 $x-unit: 100% / $col-count;
 $y-unit: 100% / $row-count;
@@ -168,6 +168,8 @@ code {
 html, body {
   height: 100%;
   margin: 0;
+  position: relative;
+  overflow: hidden;
 }
 
 .game {
@@ -181,14 +183,22 @@ html, body {
   pointer-events: none;
 }
 
-.grid {
+.grid-container {
+  width: 94.4vw;
+  max-width: 94.4vh / $board-height-ratio;
   margin: auto;
-  width: 100vmin;
-  height: 100vmin * $board-height-ratio;
+}
+
+.grid {
   transform: rotateX($board-angle);
   transform-style: preserve-3d;
   transform-origin: bottom;
   background: $tile;
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%;
+  height: 0;
+  padding-top: 100% * $board-height-ratio;
 }
 
 .row,
@@ -242,15 +252,16 @@ html, body {
 .character-shadow {
   background: url("images/default-character.svg") center bottom no-repeat;
   background-size: contain;
+  transform-style: preserve-3d;
 }
 
 .character-shadow {
   -webkit-filter: grayscale(100%) contrast(0.056) brightness(0.236) blur(0.2vmin);
           filter: grayscale(100%) contrast(0.056) brightness(0.236) blur(0.2vmin);
   transform-origin: bottom;
-  transform-style: preserve-3d;
   opacity: 0.382;
   animation: shadowSway $loop-time $loop-easing infinite alternate;
+  animation-play-state: paused;
 
   [data-team="2"] & {
     animation-name: shadowSwayOpposite;
@@ -260,7 +271,7 @@ html, body {
 @keyframes shadowSway {
   0%, 100% {
     transform:
-      translateY(-50%)
+      translateY(-52%)
       scaleY(0.854)
       skewX(-$character-angle)
       rotateX(180deg)
@@ -269,7 +280,7 @@ html, body {
 
   50% {
     transform:
-      translateY(-50%)
+      translateY(-52%)
       scaleY(1)
       skewX($character-angle*0.618)
       rotateX(180deg)
@@ -280,7 +291,7 @@ html, body {
 @keyframes shadowSwayOpposite {
   0%, 100% {
     transform:
-      translateY(-50%)
+      translateY(-52%)
       scaleY(0.854)
       skewX(-$character-angle)
       rotateX(180deg)
@@ -290,7 +301,7 @@ html, body {
 
   50% {
     transform:
-      translateY(-50%)
+      translateY(-52%)
       scaleY(1)
       skewX($character-angle*0.618)
       rotateX(180deg)
@@ -302,9 +313,8 @@ html, body {
 .character-model {
   width: 100%;
   height: 100%;
-  transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle);
+    transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle);
   transform-origin: bottom;
-  transform-style: preserve-3d;
   word-break: break-word;
   font-size: 10px;
   line-height: 1;
@@ -339,7 +349,13 @@ html, body {
 //
 // Character controls
 
+.character-controls-container {
+  overflow: hidden;
+  pointer-events: none;
+}
+
 .character-controls {
+  pointer-events: auto;
   position: absolute;
   z-index: 1 !important;
   width: $x-unit;
@@ -355,18 +371,63 @@ html, body {
 button.move {
   position: absolute;
   display: block;
-  background: rgba($green, 0.236);
-  color: $bright;
+  background: rgba($green, 0.09);
+  color: $green;
   font-size: 4vmin;
   width: 100%;
   height: 100%;
-  transition: transform $main-time $main-easing;
+  transition:
+    transform $main-time $main-easing
+  ;
+
+  &:after {
+    content: "●";
+  }
+
+  &:hover {
+    background: rgba($green, 0.5);
+  }
 }
 
-button.move-left  { right: 100%; top: 0;       [data-x-pos="1"] &             { transform: scale(0) } }
-button.move-right { left:  100%; top: 0;       [data-x-pos="#{$col-count}"] & { transform: scale(0) } }
-button.move-up    { left:     0; bottom: 100%; [data-y-pos="1"] &             { transform: scale(0) } }
-button.move-down  { left:     0; top:    100%; [data-y-pos="#{$row-count}"] & { transform: scale(0) } }
+button.move-left {
+  right: 100%;
+  width: 100%;
+  top: 0;
+
+  @for $i from 0 through $col-count - 1 {
+    &[data-move-x="-#{$i+1}"]  { right: 100% * ($i+1); }
+  }
+}
+
+button.move-right {
+  left:  100%;
+  width: 100%;
+  top: 0;
+
+  @for $i from 0 through $col-count - 1 {
+    &[data-move-x="#{$i+1}"]  { left: 100% * ($i+1); }
+  }
+}
+
+button.move-up {
+  bottom: 100%;
+  height: 100%;
+  left: 0;
+
+  @for $i from 0 through $col-count - 1 {
+    &[data-move-y="-#{$i+1}"]  { bottom: 100% * ($i+1); }
+  }
+}
+
+button.move-down {
+  top: 100%;
+  height: 100%;
+  left: 0;
+
+  @for $i from 0 through $col-count - 1 {
+    &[data-move-y="#{$i+1}"]  { top: 100% * ($i+1); }
+  }
+}
 
 //
 // Positions
@@ -385,10 +446,19 @@ button.move-down  { left:     0; top:    100%; [data-y-pos="#{$row-count}"] & { 
 .move-log {
   position: absolute;
   left: 0; bottom: 0;
-  background: $off-background;
+  background: rgba($off-background, 0.382);
   font-size: 0.75rem;
   padding: $line;
   max-width: 23.6vw;
   max-height: 38.2vh;
   overflow: auto;
+}
+
+//
+// Game header
+
+.game-header {
+  position: absolute;
+  left: 0; top: 0;
+  z-index: 10;
 }

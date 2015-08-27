@@ -72,7 +72,16 @@ if Meteor.isClient
     newX = xPos + x
     newY = yPos + y
 
-    if newX < 1 || newX > Game.colCount || newY < 1 || newY > Game.rowCount
+    if newX < 1
+      newX = 1
+    if newX > Game.colCount
+      newX = Game.colCount
+    if newY < 1
+      newY = 1
+    if newY > Game.rowCount
+      newY = Game.rowCount
+
+    if newX == xPos && newY == yPos
       return false
     else
       movables.attr( {"data-x-pos": newX, "data-y-pos": newY} )
@@ -154,6 +163,9 @@ if Meteor.isClient
     "click .stop-game": ->
       console.log "stopping game #{@_id}"
       Meteor.call "stopGame", @_id
+
+    "click .end-turn": ->
+      Meteor.call "endTurn", @_id
 
     "click .blue-move": ->
       console.log "adding move to game #{@_id}"
@@ -247,17 +259,19 @@ if Meteor.isClient
 
   Template.characterControls.events
 
-    "click .move-left": (event) ->
-      moveCharacter(-1, 0)
+    "click .move": (event) ->
+      button = $(event.target)
+      buttonX = button.attr("data-move-x")
+      buttonY = button.attr("data-move-y")
+      moveX = 0
+      moveY = 0
 
-    "click .move-right": (event) ->
-      moveCharacter(1, 0)
+      if buttonX
+        moveX = +buttonX
+      if buttonY
+        moveY = +buttonY
 
-    "click .move-up": (event) ->
-      moveCharacter(0, -1)
-
-    "click .move-down": (event) ->
-      moveCharacter(0, 1)
+      moveCharacter(moveX, moveY)
 
 #
 # Server
@@ -381,6 +395,17 @@ if Meteor.isServer
       Games.update gameID,
         $set:
           started: false
+
+    endTurn: (gameID) ->
+      #  TODO: can't use multi
+      # Games.update {
+      #   _id: gameID
+      #   "characters.team":
+      #     $gt: 0
+      # }, { $set: "characters.$.movesLeft": Game.movesPerCharacter }, multi: true,
+      #   (error, results) ->
+      #     console.log "ending turn for team 1"
+      #     console.log results
 
     createMove: (gameID, slotID, newX, newY, description) ->
       characterRecord = Games.findOne {
