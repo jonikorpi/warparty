@@ -24,7 +24,7 @@ $loop-easing:        ease-in-out;
 
 $main-time: 200ms;
 $short-time: 124ms;
-$loop-time: 6000ms;
+$loop-time: $main-time*89;
 
 //
 // Colors
@@ -250,10 +250,52 @@ html, body {
   transform-origin: bottom;
   transform-style: preserve-3d;
   opacity: 0.382;
-    transform: translateY(-50%) scaleY(0.854) skewX(-$character-angle) rotateX(180deg);
+  animation: shadowSway $loop-time $loop-easing infinite alternate;
 
   [data-team="2"] & {
-    transform: translateY(-50%) scaleY(0.854) skewX(-$character-angle) rotateX(180deg) scaleX(-1);
+    animation-name: shadowSwayOpposite;
+  }
+}
+
+@keyframes shadowSway {
+  0%, 100% {
+    transform:
+      translateY(-50%)
+      scaleY(0.854)
+      skewX(-$character-angle)
+      rotateX(180deg)
+    ;
+  }
+
+  50% {
+    transform:
+      translateY(-50%)
+      scaleY(1)
+      skewX($character-angle*0.618)
+      rotateX(180deg)
+    ;
+  }
+}
+
+@keyframes shadowSwayOpposite {
+  0%, 100% {
+    transform:
+      translateY(-50%)
+      scaleY(0.854)
+      skewX(-$character-angle)
+      rotateX(180deg)
+      scaleX(-1)
+    ;
+  }
+
+  50% {
+    transform:
+      translateY(-50%)
+      scaleY(1)
+      skewX($character-angle*0.618)
+      rotateX(180deg)
+      scaleX(-1)
+    ;
   }
 }
 
