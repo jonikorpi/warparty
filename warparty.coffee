@@ -331,6 +331,7 @@ if Meteor.isServer
             slot: 1
             characterID: false
             movesLeft: Game.movesPerCharacter
+            downed: false
           }
           {
             slotID: "1.2"
@@ -338,6 +339,7 @@ if Meteor.isServer
             slot: 2
             characterID: false
             movesLeft: Game.movesPerCharacter
+            downed: false
           }
           {
             slotID: "1.3"
@@ -345,6 +347,7 @@ if Meteor.isServer
             slot: 3
             characterID: false
             movesLeft: Game.movesPerCharacter
+            downed: false
           }
           {
             slotID: "1.4"
@@ -352,6 +355,7 @@ if Meteor.isServer
             slot: 4
             characterID: false
             movesLeft: Game.movesPerCharacter
+            downed: true
           }
           {
             slotID: "2.1"
@@ -359,6 +363,7 @@ if Meteor.isServer
             slot: 1
             characterID: false
             movesLeft: Game.movesPerCharacter
+            downed: false
           }
           {
             slotID: "2.2"
@@ -366,6 +371,7 @@ if Meteor.isServer
             slot: 2
             characterID: false
             movesLeft: Game.movesPerCharacter
+            downed: false
           }
           {
             slotID: "2.3"
@@ -373,6 +379,7 @@ if Meteor.isServer
             slot: 3
             characterID: false
             movesLeft: Game.movesPerCharacter
+            downed: false
           }
           {
             slotID: "2.4"
@@ -380,6 +387,7 @@ if Meteor.isServer
             slot: 4
             characterID: false
             movesLeft: Game.movesPerCharacter
+            downed: false
           }
         ]
         # , (error, results) ->

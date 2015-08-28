@@ -9,6 +9,7 @@ $line: 1.382rem;
 
 $row-count: 8;
 $col-count: 13;
+$board-fill-ratio: 91;
 $board-height-ratio: $row-count/$col-count;
 $board-angle: 23.6deg;
 $character-angle: 12.4deg;
@@ -173,7 +174,7 @@ html, body {
 }
 
 .game {
-  perspective: 50em;
+  perspective: 162vh;
   margin: 0;
 }
 
@@ -184,8 +185,8 @@ html, body {
 }
 
 .grid-container {
-  width: 94.4vw;
-  max-width: 94.4vh / $board-height-ratio;
+  width: $board-fill-ratio * 1vw;
+  max-width: $board-fill-ratio * 1vh / $board-height-ratio;
   margin: auto;
 }
 
@@ -195,7 +196,8 @@ html, body {
   transform-origin: bottom;
   background: $tile;
   position: absolute;
-  left: 0; top: 0;
+  left: 0; top: 0; bottom: 0;
+  margin: auto;
   width: 100%;
   height: 0;
   padding-top: 100% * $board-height-ratio;
@@ -231,7 +233,6 @@ html, body {
 }
 
 .character-base {
-  transform-style: preserve-3d;
   border-radius: 50%;
   border: 1vmin solid $shadow;
 
@@ -325,11 +326,17 @@ html, body {
   [data-team="2"] & {
     transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle) scaleX(-1);
   }
+
+  .character[data-downed="true"] & {
+    -webkit-filter: grayscale(100%);
+            filter: grayscale(100%);
+  }
 }
 
 .moves-tag {
   position: absolute;
-  bottom: 0; right: 0;
+  top: 0; bottom: 0; right: 0;
+  margin: auto;
   text-align: center;
   background: $green;
   color: $off-background;
