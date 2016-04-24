@@ -15,9 +15,9 @@ export default class Sky extends Component {
           radius: Variables.clipRange,
         }}
         material={{
-          // color: this.props.color || "#fff",
+          color: "black",
           shader: "flat",
-          src: "url(/starfield.png)",
+          // src: "url(/starfield.png)",
         }}
         scale={[1, 1, -1]}
       />
