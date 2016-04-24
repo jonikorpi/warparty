@@ -20,14 +20,14 @@ export default class Floor extends Component {
       <Entity
         id="floor"
         geometry={{
-          primitive: "plane",
-          width: Variables.clipRange*2,
-          height: Variables.clipRange*2,
+          // primitive: "plane",
+          // width: Variables.clipRange*2,
+          // height: Variables.clipRange*2,
         }}
         material={{
-          color: "white",
-          transparent: true,
-          opacity: 0.146,
+          // color: "white",
+          // transparent: true,
+          // opacity: 0.146,
         }}
         position={[0,0,0]}
         rotation={[-90, 0, 0]}
