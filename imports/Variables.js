@@ -15,6 +15,7 @@ Variables.springConfig = {stiffness: 300, damping: 30};
 Variables.walkingSpeed = 1;
 
 Variables.tileSize = 0.1;
+Variables.tileSizeFactor = 0.91;
 Variables.tilesPerRow = 9;
 Variables.tilesPerColumn = 9;
 

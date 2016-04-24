@@ -6,7 +6,7 @@ import Combokeys from "combokeys";
 
 import Variables from "../Variables";
 
-import BoardContainer from "./Board";
+import BoardContainer from "./BoardContainer";
 
 export default class Game extends Component {
 
@@ -97,11 +97,8 @@ export default class Game extends Component {
       >
 
         <BoardContainer
-          devMode={this.state.devMode}
-          inVR={this.state.inVR}
           state={this.state}
         />
-      }
 
       </div>
     );

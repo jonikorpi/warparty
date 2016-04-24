@@ -10,9 +10,12 @@ import Sky from "./Sky";
 import Floor from "./Floor";
 import AmbientLight from "./AmbientLight";
 import StarLight from "./StarLight";
-import Grid from "./Grid";
 
-export default class World extends Component {
+import Grid from "./Grid";
+import Structure from "./Structure";
+import Party from "./Party";
+
+export default class Board extends Component {
 
   constructor(props) {
     super();
@@ -20,6 +23,22 @@ export default class World extends Component {
 
   componentDidMount() {
 
+  }
+
+  getStructures(structures) {
+    return structures.map(
+      function(structure, i) {
+        return <Structure data={structure} key={i}/>;
+      }
+    );
+  }
+
+  getParties(parties) {
+    return parties.map(
+      function(party, i) {
+        return <Party data={party} key={i}/>;
+      }
+    );
   }
 
   render() {
@@ -34,8 +53,6 @@ export default class World extends Component {
         <Camera
           id="camera"
           far={Variables.clipRange * 1.5}
-          devMode={this.props.devMode}
-          inVR={this.props.inVR}
           state={this.props.state}
         />
 
@@ -45,7 +62,20 @@ export default class World extends Component {
         <AmbientLight/>
         <StarLight/>
 
-        <Grid/>
+        <Entity
+          id="center"
+          position={[
+            -Variables.tileSize * Variables.tilesPerRow * 0.5,
+            0,
+            -Variables.tileSize * Variables.tilesPerColumn * 0.5,
+          ]}
+        >
+
+          <Grid/>
+          {this.getStructures(this.props.game.structures)}
+          {this.getParties(this.props.game.parties)}
+
+        </Entity>
 
       </Scene>
     );

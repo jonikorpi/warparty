@@ -6,7 +6,7 @@ import {Animation, Entity, Scene} from "aframe-react";
 
 import Variables from "../Variables";
 
-export default class Player extends Component {
+export default class Hero extends Component {
 
   constructor(props) {
     super();
@@ -32,32 +32,31 @@ export default class Player extends Component {
     return (
       <Motion
         style={{
-          playerLocationX: spring(this.props.position[0], Variables.springConfig),
-          playerLocationY: spring(this.props.position[1], Variables.springConfig),
-          playerLocationZ: spring(this.props.position[2], Variables.springConfig),
+          heroPositionX: spring(Variables.tileSize * this.props.data.position[0], Variables.springConfig),
+          heroPositionY: spring(Variables.tileSize * this.props.data.position[1], Variables.springConfig),
+          heroPositionZ: spring(Variables.tileSize * this.props.data.position[2], Variables.springConfig),
         }}
       >
         {interpolation =>
           <Entity
-            id="player"
-            class="player"
+            class="hero"
             geometry={{
               primitive: "box",
-              width: 0.414,
-              height: 1.618,
-              depth: 0.236,
+              width: Variables.tileSize * 0.414,
+              height: Variables.tileSize * 1.618,
+              depth: Variables.tileSize * 0.236,
             }}
             material={{
-              color: "#fff",
+              color: "red",
             }}
             onClick={this.onPlayerClick}
             onMouseEnter={this.startPlayerHover}
             onMouseLeave={this.endPlayerHover}
-            rotation={[0, this.props.facingTowards, 0]}
+            rotation={[0, this.props.data.facingTowards, 0]}
             position={[
-              interpolation.playerLocationX + Variables.tileSize * 0.5,
-              interpolation.playerLocationY + 1.618*0.5,
-              interpolation.playerLocationZ + Variables.tileSize * 0.5,
+              interpolation.heroPositionX + Variables.tileSize * 0.5,
+              interpolation.heroPositionY + Variables.tileSize * 1.618*0.5,
+              interpolation.heroPositionZ + Variables.tileSize * 0.5,
             ]}
           >
           </Entity>

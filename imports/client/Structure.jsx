@@ -5,7 +5,7 @@ import {Animation, Entity, Scene} from "aframe-react";
 
 import Variables from "../Variables";
 
-export default class Tile extends Component {
+export default class Structure extends Component {
 
   constructor(props) {
     super();
@@ -18,7 +18,7 @@ export default class Tile extends Component {
   getPosition(position) {
     return [
       position[0] * Variables.tileSize + Variables.tileSize * 0.5,
-      position[1] * Variables.tileSize,
+      position[1] * Variables.tileSize + Variables.tileSize * Variables.tileSizeFactor * 0.5,
       position[2] * Variables.tileSize + Variables.tileSize * 0.5,
     ];
   }
@@ -26,17 +26,17 @@ export default class Tile extends Component {
   render() {
     return (
       <Entity
-        class="tile"
+        class="structure"
         geometry={{
-          primitive: "plane",
+          primitive: "box",
           width: Variables.tileSize * Variables.tileSizeFactor,
           height: Variables.tileSize * Variables.tileSizeFactor,
+          depth: Variables.tileSize * Variables.tileSizeFactor,
         }}
         material={{
-          color: "white",
+          color: "grey",
         }}
-        rotation={[-90, 0, 0]}
-        position={this.getPosition(this.props.position)}
+        position={this.getPosition(this.props.data.position)}
       >
 
       </Entity>

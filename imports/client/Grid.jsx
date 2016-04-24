@@ -8,7 +8,7 @@ import Variables from "../Variables";
 
 import Tile from "./Tile";
 
-export default class Player extends Component {
+export default class Grid extends Component {
 
   constructor(props) {
     super();
@@ -38,11 +38,6 @@ export default class Player extends Component {
     return (
       <Entity
         id="grid"
-        position={[
-          -Variables.tileSize * Variables.tilesPerRow * 0.5,
-          0,
-          -Variables.tileSize * Variables.tilesPerColumn * 0.5,
-        ]}
       >
 
         {this.getTiles()}

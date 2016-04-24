@@ -3,7 +3,17 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import Board from './Board';
 
-export default createContainer(({ params }) => {
+export default createContainer(({params}) => {
+
+  // Do all your reactive data access in this method.
+  // Note that this subscription will get cleaned up when your component is unmounted
+  // var handle = Meteor.subscribe("todoList", this.props.id);
+  //
+  // return {
+  //   currentUser: Meteor.user(),
+  //   listLoading: ! handle.ready(),
+  //   tasks: Tasks.find({listId: this.props.id}).fetch(),
+  // };
 
   // const { id } = params;
   // const todosHandle = Meteor.subscribe('todos.inList', id);
@@ -24,9 +34,9 @@ export default createContainer(({ params }) => {
     parties: [
       {
         mana: 4,
-        heroes: {
+        heroes: [
           {
-            position: [1, 2],
+            position: [1, 0, 2],
             items: [1, 2, 3, 4],
             effects: [
               {
@@ -35,13 +45,13 @@ export default createContainer(({ params }) => {
               }
             ],
           },
-        },
+        ],
       },
       {
         mana: 4,
-        heroes: {
+        heroes: [
           {
-            position: [1, 2],
+            position: [2, 0, 2],
             items: [1, 2, 3, 4],
             effects: [
               {
@@ -50,23 +60,20 @@ export default createContainer(({ params }) => {
               }
             ],
           },
-        },
+        ],
       },
     ],
-    objects: [
+    structures: [
       {
         id: 3,
-        position: [0, 5],
+        position: [0, 0, 5],
         duration: 5,
       }
     ]
   };
 
   return {
-    devMode: this.props.devMode,
-    inVR: this.props.inVR,
-    state: this.props.state,
     game: game,
   };
 
-}, Environment);
+}, Board);
