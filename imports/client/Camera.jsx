@@ -13,14 +13,14 @@ export default class Camera extends Component {
   getCameraAltitude(state) {
     const width = state.width;
     const height = state.height;
-    const maxAspectRatio = 1.236 * (Variables.cameraPositionAngle / 90);
+    const maxAspectRatio = (Variables.tilesPerRow/5.5) * (Variables.cameraPositionAngle / 90);
     let aspectRatio = (width / height);
 
     if (aspectRatio > maxAspectRatio) {
       aspectRatio = maxAspectRatio;
     }
 
-    return 0.854 * (Variables.cameraPositionAngle / 90) / aspectRatio;
+    return (Variables.tilesPerRow/10) * (Variables.cameraPositionAngle / 90) / aspectRatio;
   }
 
   getVRCameraAltitude(state) {
@@ -39,7 +39,7 @@ export default class Camera extends Component {
         position={[
           0,
           0,
-          Variables.tileSize * 1.6333 / (Variables.cameraPositionAngle / 90),
+          Variables.tileSize * (Variables.tilesPerColumn/10) / (Variables.cameraPositionAngle / 90),
         ]}
       >
 
