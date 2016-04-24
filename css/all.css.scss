@@ -1,0 +1,135 @@
+@charset "utf-8";
+@viewport {width: device-width;}
+
+//
+// Imports
+
+@import "variables";
+@import "reset";
+@import "classes";
+@import "fonts";
+
+//
+// Typography
+
+html {
+  font-family: sans-serif;
+  font-weight: 400;
+}
+
+.underlined {
+  background-image: linear-gradient(currentcolor, currentcolor);
+  background-size: $hairline $hairline;
+  background-position: 0 $underline-offset;
+  background-repeat: repeat-x;
+  text-shadow:
+    $hairline 0 0  $background,
+    -$hairline 0 0 $background
+  ;
+
+  &:hover,
+  &:focus {
+    background-image: none;
+  }
+
+  &:active,
+  &.active {
+    background-image: none;
+    color: inherit;
+  }
+}
+
+.size-0 { font-size: 0.813rem; line-height: $line*0.727272727; }
+.size-1 { font-size: 1.000rem; line-height: $line*1.00; }
+.size-2 { font-size: 1.236rem; line-height: $line*1.00; }
+.size-3 { font-size: 1.382rem; line-height: $line*1.00; }
+.size-4 { font-size: 1.618rem; line-height: $line*1.50; }
+.size-5 { font-size: 2.150rem; line-height: $line*1.50; }
+.size-6 { font-size: 2.618rem; line-height: $line*2.00; }
+.size-7 { font-size: 4.236rem; line-height: $line*3.25; }
+
+a {
+  color: $strong;
+
+  &:hover {
+    color: mix($emphasizer, $highlight, 23.6%);
+  }
+
+  &:active {
+    color: mix($dimmer, $highlight, 23.6%);
+  }
+}
+
+::selection {
+  background: $highlight;
+  color: $strong;
+}
+
+::placeholder {
+  color: $aside;
+}
+
+//
+// Root styles
+
+* {
+  transition-property: transform, opacity;
+  transition-duration: $main-time;
+  transition-timing-function: $main-easing;
+}
+
+html {
+  font-size: 100% * $font-size-multiplier;
+  line-height: $line;
+  background: $background;
+  color: $body;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body {
+  margin: 0 auto;
+  max-width: 100%;
+  // overflow: hidden;
+  // overflow-y: visible;
+}
+
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+
+#game,
+#react {
+  height: 100%;
+}
+
+.a-canvas {
+  .dev-mode & {
+    background-color: black;
+    border: $spacing-xs dashed yellow;
+  }
+
+  #game & {
+    @extend .enter-fade;
+    cursor: pointer;
+  }
+}
+
+.enter-fade {
+  animation: enter-fade $main-time $main-easing;
+}
+
+.enter-delayed {
+  animation-delay: $main-time*15;
+  animation-fill-mode: backwards;
+}
+
+@keyframes enter-fade {
+    0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.max-width-narrow {
+  max-width: $line*24;
+  margin: auto;
+}

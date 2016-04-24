@@ -4,10 +4,20 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
-autopublish
-iron:router
-coffeescript
+meteor-base             # Packages every Meteor app needs to have
+mobile-experience       # Packages for a great mobile UX
+mongo                   # The database Meteor supports right now
+session                 # Client-side reactive dictionary for your app
+tracker                 # Meteor's client-side reactive programming library
+
+es5-shim                # ECMAScript 5 compatibility for older browsers.
+ecmascript              # Enable ECMAScript2015+ syntax in app code
+
 fourseven:scss
-mquandalle:jade
-msavin:mongol
+peerlibrary:reactive-publish
+peerlibrary:reactive-mongo
+
+standard-minifier-css
+standard-minifier-js
+static-html
+react-meteor-data
