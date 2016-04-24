@@ -65,6 +65,7 @@ export default createContainer(({ params }) => {
   return {
     devMode: this.props.devMode,
     inVR: this.props.inVR,
+    state: this.props.state,
     game: game,
   };
 

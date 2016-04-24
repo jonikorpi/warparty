@@ -10,6 +10,7 @@ import Sky from "./Sky";
 import Floor from "./Floor";
 import AmbientLight from "./AmbientLight";
 import StarLight from "./StarLight";
+import Grid from "./Grid";
 
 export default class World extends Component {
 
@@ -35,6 +36,7 @@ export default class World extends Component {
           far={Variables.clipRange * 1.5}
           devMode={this.props.devMode}
           inVR={this.props.inVR}
+          state={this.props.state}
         />
 
         <Sky/>
@@ -42,6 +44,8 @@ export default class World extends Component {
 
         <AmbientLight/>
         <StarLight/>
+
+        <Grid/>
 
       </Scene>
     );

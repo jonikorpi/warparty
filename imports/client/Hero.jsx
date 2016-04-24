@@ -8,6 +8,14 @@ import Variables from "../Variables";
 
 export default class Player extends Component {
 
+  constructor(props) {
+    super();
+  }
+
+  componentDidMount() {
+
+  }
+
   onPlayerClick(event) {
     console.log("player clicked");
   }

@@ -99,6 +99,7 @@ export default class Game extends Component {
         <BoardContainer
           devMode={this.state.devMode}
           inVR={this.state.inVR}
+          state={this.state}
         />
       }
 

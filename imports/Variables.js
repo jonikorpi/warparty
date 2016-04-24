@@ -14,14 +14,12 @@ Variables.time = 1000;
 Variables.springConfig = {stiffness: 300, damping: 30};
 Variables.walkingSpeed = 1;
 
-Variables.tileSize = 1;
-Variables.tilesPerRow = 13;
+Variables.tileSize = 0.1;
+Variables.tilesPerRow = 8;
 Variables.tilesPerColumn = 13;
 
-Variables.cameraAltitude = 8; // 10 is probably max
-Variables.cameraOffsetZ = Variables.tilesPerColumn * 0.20;
-Variables.cameraPositionAngle = (Math.atan(5/3) * 180 / Math.PI); // https://en.wikipedia.org/wiki/Pythagorean_triple#Examples
-Variables.clipRange = 1000;
+Variables.cameraPositionAngle = (Math.atan(12/5) * 180 / Math.PI); // https://en.wikipedia.org/wiki/Pythagorean_triple#Examples
+Variables.clipRange = 100;
 
 Variables.shortTime = function(exponent) {
   return Variables.time / Math.pow(1.618, exponent);
