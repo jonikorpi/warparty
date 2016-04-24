@@ -17,21 +17,10 @@ export default class Segment extends Component {
 
   getPosition(position) {
     return [
-      position[0] + Variables.tileSize * 0.5,
-      0,
-      position[2] + Variables.tileSize * 0.5,
+      position[0] * Variables.tileSize + Variables.tileSize * 0.5,
+      position[1] * Variables.tileSize,
+      position[2] * Variables.tileSize + Variables.tileSize * 0.5,
     ];
-  }
-
-  getColor(type) {
-    switch (type) {
-      case 0:
-        return "black";
-        break;
-      case 1:
-        return "rgb(161,193,110)";
-        break;
-    }
   }
 
   render() {
@@ -39,15 +28,14 @@ export default class Segment extends Component {
       <Entity
         class="tile"
         geometry={{
-          primitive: "box",
-          width: Variables.tileSize,
-          height: Variables.tileSize,
-          depth: Variables.tileSize,
+          primitive: "plane",
+          width: Variables.tileSize * 0.91,
+          height: Variables.tileSize * 0.91,
         }}
         material={{
-          color: this.getColor(this.props.type),
+          color: "white",
         }}
-        type={this.props.type}
+        rotation={[-90, 0, 0]}
         position={this.getPosition(this.props.position)}
       >
 
