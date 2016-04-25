@@ -30,7 +30,7 @@ export default class Camera extends Component {
   render() {
     return (
       <Entity
-        id="camera"
+        id="camera-container"
         rotation={[
           90 - Variables.cameraPositionAngle,
           0,
@@ -57,6 +57,7 @@ export default class Camera extends Component {
         >
 
           <Entity
+            id="camera"
             camera={{
               far: this.props.far || 10000,
               near: this.props.near || 0.001,
@@ -67,7 +68,10 @@ export default class Camera extends Component {
               0
             ]}
             look-controls={{ enabled: this.props.state.inVR || this.props.state.devMode }}
-            wasd-controls={{ enabled: this.props.state.devMode }}
+            wasd-controls={{
+              enabled: this.props.state.devMode,
+              fly: true,
+            }}
             mouse-cursor={ !this.props.state.inVR }
           >
 

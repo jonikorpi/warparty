@@ -18,6 +18,7 @@ Variables.tileSize = 0.1;
 Variables.tileSizeFactor = 0.91;
 Variables.tilesPerRow = 9;
 Variables.tilesPerColumn = 9;
+Variables.textureSize = 1024;
 
 Variables.cameraPositionAngle = (Math.atan(12/5) * 180 / Math.PI); // https://en.wikipedia.org/wiki/Pythagorean_triple#Examples
 Variables.clipRange = 100;

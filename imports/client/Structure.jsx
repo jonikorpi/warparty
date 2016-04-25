@@ -5,6 +5,8 @@ import {Animation, Entity, Scene} from "aframe-react";
 
 import Variables from "../Variables";
 
+import Html from "./Html";
+
 export default class Structure extends Component {
 
   constructor(props) {
@@ -38,6 +40,15 @@ export default class Structure extends Component {
         }}
         position={this.getPosition(this.props.data.position)}
       >
+
+        <Html
+          width={0.1}
+          height={0.1}
+          lookAtCamera={true}
+          position={[0,0.2,0]}
+        >
+          <h1 className="size-5 color-strong bg-background">trolol</h1>
+        </Html>
 
       </Entity>
     );
