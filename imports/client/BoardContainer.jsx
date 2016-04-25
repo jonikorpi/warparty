@@ -36,7 +36,7 @@ export default createContainer(({params}) => {
         mana: 4,
         heroes: [
           {
-            position: [1, 0, 2],
+            position: [0, 0, 0],
             items: [1, 2, 3, 4],
             effects: [
               {
@@ -45,20 +45,45 @@ export default createContainer(({params}) => {
               }
             ],
           },
+          {
+            position: [1, 0, 0],
+            items: [1, 2, 3, 4],
+            effects: [],
+          },
+          {
+            position: [2, 0, 0],
+            items: [1, 2, 3, 4],
+            effects: [],
+          },
+          {
+            position: [3, 0, 0],
+            items: [1, 2, 3, 4],
+            effects: [],
+          },
         ],
       },
       {
-        mana: 4,
+        mana: 0,
         heroes: [
           {
-            position: [2, 0, 2],
+            position: [Variables.tilesPerColumn-1, 0, Variables.tilesPerRow-1],
             items: [1, 2, 3, 4],
-            effects: [
-              {
-                id: 4,
-                duration: 2,
-              }
-            ],
+            effects: [],
+          },
+          {
+            position: [Variables.tilesPerColumn-2, 0, Variables.tilesPerRow-1],
+            items: [1, 2, 3, 4],
+            effects: [],
+          },
+          {
+            position: [Variables.tilesPerColumn-3, 0, Variables.tilesPerRow-1],
+            items: [1, 2, 3, 4],
+            effects: [],
+          },
+          {
+            position: [Variables.tilesPerColumn-4, 0, Variables.tilesPerRow-1],
+            items: [1, 2, 3, 4],
+            effects: [],
           },
         ],
       },
