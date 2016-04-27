@@ -32,7 +32,7 @@ export default class Text extends Component {
           bevelSize: Variables.tileSize/10,
         }}
         material={{
-          color: "white",
+          color: this.props.color || "white",
         }}
         position={this.props.position || [0,0,0]}
         rotation={this.props.rotation || [0,0,0]}
