@@ -36,7 +36,7 @@ export default class Board extends Component {
   getParties(parties) {
     return parties.map(
       function(party, i) {
-        return <Party data={party} key={i}/>;
+        return <Party data={party} partyID={i} key={i}/>;
       }
     );
   }

@@ -20,6 +20,10 @@ Variables.tilesPerRow = 11;
 Variables.tilesPerColumn = 7;
 Variables.textureSize = 1024;
 
+Variables.heroWidth = Variables.tileSize * 0.414;
+Variables.heroHeight = Variables.tileSize * 1.618;
+Variables.heroDepth = Variables.tileSize * 0.236;
+
 Variables.cameraPositionAngle = (Math.atan(12/5) * 180 / Math.PI); // https://en.wikipedia.org/wiki/Pythagorean_triple#Examples
 Variables.clipRange = 100;
 

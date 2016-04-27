@@ -17,10 +17,10 @@ export default class Party extends Component {
 
   }
 
-  getHeroes(heroes) {
+  getHeroes(heroes, party) {
     return heroes.map(
       function(hero, i) {
-        return <Hero data={hero} key={i}/>;
+        return <Hero data={hero} party={party} key={i}/>;
       }
     );
   }
@@ -31,7 +31,7 @@ export default class Party extends Component {
         class="party"
       >
 
-        {this.getHeroes(this.props.data.heroes)}
+        {this.getHeroes(this.props.data.heroes, this.props.partyID)}
 
       </Entity>
     );

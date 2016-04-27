@@ -6,6 +6,8 @@ import {Animation, Entity, Scene} from "aframe-react";
 
 import Variables from "../Variables";
 
+import Effect from "./Effect";
+
 export default class Hero extends Component {
 
   constructor(props) {
@@ -28,6 +30,31 @@ export default class Hero extends Component {
     // console.log(event);
   }
 
+  getEffects(effects) {
+    if (effects.length > 0) {
+      return effects.map(
+        function(effect, i) {
+          return <Effect data={effect} key={i}/>;
+        }
+      );
+    }
+  }
+
+  getRotation(party) {
+    let rotation = 0;
+
+    switch (party) {
+      case 0:
+        rotation = -90;
+        break;
+      case 1:
+        rotation = 90;
+        break;
+    }
+
+    return rotation;
+  }
+
   render() {
     return (
       <Motion
@@ -42,9 +69,9 @@ export default class Hero extends Component {
             class="hero"
             geometry={{
               primitive: "box",
-              width: Variables.tileSize * 0.414,
-              height: Variables.tileSize * 1.618,
-              depth: Variables.tileSize * 0.236,
+              width: Variables.heroWidth,
+              height: Variables.heroHeight,
+              depth: Variables.heroDepth,
             }}
             material={{
               color: "red",
@@ -52,13 +79,20 @@ export default class Hero extends Component {
             onClick={this.onPlayerClick}
             onMouseEnter={this.startPlayerHover}
             onMouseLeave={this.endPlayerHover}
-            rotation={[0, this.props.data.facingTowards, 0]}
+            rotation={[
+              0,
+              this.getRotation(this.props.party),
+              0,
+            ]}
             position={[
               interpolation.heroPositionX + Variables.tileSize * 0.5,
-              interpolation.heroPositionY + Variables.tileSize * 1.618*0.5,
+              interpolation.heroPositionY + Variables.heroHeight * 0.5,
               interpolation.heroPositionZ + Variables.tileSize * 0.5,
             ]}
           >
+
+            {this.getEffects(this.props.data.effects)}
+
           </Entity>
         }
       </Motion>

@@ -34,6 +34,7 @@ export default class Tile extends Component {
         }}
         material={{
           color: "white",
+          side: "double",
         }}
         rotation={[-90, 0, 0]}
         position={this.getPosition(this.props.position)}

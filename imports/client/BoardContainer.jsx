@@ -40,7 +40,7 @@ export default createContainer(({params}) => {
             items: [1, 2, 3, 4],
             effects: [
               {
-                id: 4,
+                type: "stun",
                 duration: 2,
               }
             ],
