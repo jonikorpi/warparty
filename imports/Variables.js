@@ -14,10 +14,10 @@ Variables.time = 1000;
 Variables.springConfig = {stiffness: 300, damping: 30};
 Variables.walkingSpeed = 1;
 
-Variables.tileSize = 0.1;
+Variables.tileSize = 0.2;
 Variables.tileSizeFactor = 0.91;
-Variables.tilesPerRow = 9;
-Variables.tilesPerColumn = 9;
+Variables.tilesPerRow = 11;
+Variables.tilesPerColumn = 7;
 Variables.textureSize = 1024;
 
 Variables.cameraPositionAngle = (Math.atan(12/5) * 180 / Math.PI); // https://en.wikipedia.org/wiki/Pythagorean_triple#Examples

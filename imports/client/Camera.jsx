@@ -20,7 +20,7 @@ export default class Camera extends Component {
       aspectRatio = maxAspectRatio;
     }
 
-    return (Variables.tilesPerRow/10) * (Variables.cameraPositionAngle / 90) / aspectRatio;
+    return (Variables.tilesPerRow/5) * (Variables.cameraPositionAngle / 90) / aspectRatio;
   }
 
   getVRCameraAltitude(state) {

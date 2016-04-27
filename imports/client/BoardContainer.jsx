@@ -36,7 +36,7 @@ export default createContainer(({params}) => {
         mana: 4,
         heroes: [
           {
-            position: [0, 0, 0],
+            position: [0, 0, Variables.tilesPerColumn-1],
             items: [1, 2, 3, 4],
             effects: [
               {
@@ -46,17 +46,17 @@ export default createContainer(({params}) => {
             ],
           },
           {
-            position: [1, 0, 0],
+            position: [0, 0, Variables.tilesPerColumn-2],
             items: [1, 2, 3, 4],
             effects: [],
           },
           {
-            position: [2, 0, 0],
+            position: [0, 0, Variables.tilesPerColumn-3],
             items: [1, 2, 3, 4],
             effects: [],
           },
           {
-            position: [3, 0, 0],
+            position: [0, 0, Variables.tilesPerColumn-4],
             items: [1, 2, 3, 4],
             effects: [],
           },
@@ -66,22 +66,22 @@ export default createContainer(({params}) => {
         mana: 0,
         heroes: [
           {
-            position: [Variables.tilesPerColumn-1, 0, Variables.tilesPerRow-1],
+            position: [Variables.tilesPerRow-1, 0, 0],
             items: [1, 2, 3, 4],
             effects: [],
           },
           {
-            position: [Variables.tilesPerColumn-2, 0, Variables.tilesPerRow-1],
+            position: [Variables.tilesPerRow-1, 0, 1],
             items: [1, 2, 3, 4],
             effects: [],
           },
           {
-            position: [Variables.tilesPerColumn-3, 0, Variables.tilesPerRow-1],
+            position: [Variables.tilesPerRow-1, 0, 2],
             items: [1, 2, 3, 4],
             effects: [],
           },
           {
-            position: [Variables.tilesPerColumn-4, 0, Variables.tilesPerRow-1],
+            position: [Variables.tilesPerRow-1, 0, 3],
             items: [1, 2, 3, 4],
             effects: [],
           },
@@ -91,7 +91,7 @@ export default createContainer(({params}) => {
     structures: [
       {
         id: 3,
-        position: [0, 0, 5],
+        position: [3, 0, 5],
         duration: 5,
       }
     ]
