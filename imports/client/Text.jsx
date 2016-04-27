@@ -35,6 +35,7 @@ export default class Text extends Component {
           color: "white",
         }}
         position={this.props.position || [0,0,0]}
+        rotation={this.props.rotation || [0,0,0]}
         look-at={this.props.lookAtCamera ? "#camera" : false}
       />
     );

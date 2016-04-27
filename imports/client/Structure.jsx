@@ -42,10 +42,14 @@ export default class Structure extends Component {
       >
 
         <Text
-          text="Trolol"
-          size={0.1}
-          lookAtCamera={true}
-          position={[0,0.2,0]}
+          text={this.props.data.duration}
+          size={Variables.tileSize/2}
+          position={[
+            -Variables.tileSize/4,
+            Variables.tileSize/2,
+            Variables.tileSize/4,
+          ]}
+          rotation={[-90,0,0]}
         />
 
       </Entity>
