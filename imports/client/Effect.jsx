@@ -17,21 +17,22 @@ export default class Hero extends Component {
 
   }
 
+  getEffectName(type) {
+    switch (type) {
+      case 1:
+        return "Stun";
+      case 2:
+        return "Root";
+    }
+  }
+
   render() {
     return (
       <Entity
-        geometry={{
-          primitive: "ring",
-          radiusInner: Variables.heroWidth,
-          radiusOuter: Variables.heroWidth*1.09,
-        }}
-        material={{
-          color: "cyan",
-        }}
         rotation={[
           -90,
           0,
-          90,
+          0,
         ]}
         position={[
           0,
@@ -41,9 +42,14 @@ export default class Hero extends Component {
       >
 
         <Text
-          text={this.props.data.duration}
-          size={Variables.tileSize*0.25}
-          color="cyan"
+          text={`${this.getEffectName(this.props.data.type)} (${this.props.data.duration})`}
+          size={Variables.tileSize*0.125}
+          position={[
+            0,
+            -2 * this.props.index * Variables.tileSize*0.125,
+            0,
+          ]}
+          color="yellow"
         />
 
       </Entity>

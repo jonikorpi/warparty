@@ -40,7 +40,7 @@ export default createContainer(({params}) => {
             items: [1, 2, 3, 4],
             effects: [
               {
-                type: "stun",
+                type: 1,
                 duration: 2,
               }
             ],
@@ -83,7 +83,16 @@ export default createContainer(({params}) => {
           {
             position: [Variables.tilesPerRow-1, 0, 3],
             items: [1, 2, 3, 4],
-            effects: [],
+            effects: [
+              {
+                type: 1,
+                duration: 2,
+              },
+              {
+                type: 2,
+                duration: 3,
+              },
+            ],
           },
         ],
       },

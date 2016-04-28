@@ -34,7 +34,7 @@ export default class Hero extends Component {
     if (effects.length > 0) {
       return effects.map(
         function(effect, i) {
-          return <Effect data={effect} key={i}/>;
+          return <Effect data={effect} index={i} key={i}/>;
         }
       );
     }
@@ -67,29 +67,33 @@ export default class Hero extends Component {
         {interpolation =>
           <Entity
             class="hero"
-            geometry={{
-              primitive: "box",
-              width: Variables.heroWidth,
-              height: Variables.heroHeight,
-              depth: Variables.heroDepth,
-            }}
-            material={{
-              color: "red",
-            }}
-            onClick={this.onPlayerClick}
-            onMouseEnter={this.startPlayerHover}
-            onMouseLeave={this.endPlayerHover}
-            rotation={[
-              0,
-              this.getRotation(this.props.party),
-              0,
-            ]}
             position={[
               interpolation.heroPositionX + Variables.tileSize * 0.5,
               interpolation.heroPositionY + Variables.heroHeight * 0.5,
               interpolation.heroPositionZ + Variables.tileSize * 0.5,
             ]}
           >
+
+            <Entity
+              class="hero-model"
+              geometry={{
+                primitive: "box",
+                width: Variables.heroWidth,
+                height: Variables.heroHeight,
+                depth: Variables.heroDepth,
+              }}
+              material={{
+                color: "red",
+              }}
+              onClick={this.onPlayerClick}
+              onMouseEnter={this.startPlayerHover}
+              onMouseLeave={this.endPlayerHover}
+              rotation={[
+                0,
+                this.getRotation(this.props.party),
+                0,
+              ]}
+            />
 
             {this.getEffects(this.props.data.effects)}
 
