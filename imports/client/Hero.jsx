@@ -6,6 +6,7 @@ import {Animation, Entity, Scene} from "aframe-react";
 
 import Variables from "../Variables";
 
+import Text from "./Text";
 import Item from "./Item";
 import Effect from "./Effect";
 
@@ -108,6 +109,17 @@ export default class Hero extends Component {
 
             {this.getItems(this.props.data.items)}
             {this.getEffects(this.props.data.effects)}
+
+            <Text
+              text={this.props.data.mana}
+              size={Variables.tileSize*0.25}
+              position={[
+                Variables.tileSize * -0.25,
+                0,
+                0,
+              ]}
+              color="cyan"
+            />
 
           </Entity>
         }

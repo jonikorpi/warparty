@@ -31,11 +31,6 @@ export default class Item extends Component {
   render() {
     return (
       <Entity
-        rotation={[
-          0,
-          270,
-          0,
-        ]}
         position={[
           0,
           Variables.heroHeight * 0.5 - (2 * this.props.index * Variables.tileSize*0.125),
@@ -51,12 +46,7 @@ export default class Item extends Component {
             0,
             0,
           ]}
-          rotation={[
-            0,
-            90,
-            0,
-          ]}
-          color="cyan"
+          color="grey"
         />
 
       </Entity>

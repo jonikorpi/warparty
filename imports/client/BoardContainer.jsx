@@ -50,6 +50,7 @@ export default createContainer(({params}) => {
   for (let i = 0; i < Variables.heroesPerParty; i++) {
     game.parties[0].heroes.push(
       {
+        mana: 0,
         position: [0, 0, Variables.tilesPerColumn-1-i],
         items: [
           _.random(1, 3),
@@ -73,6 +74,7 @@ export default createContainer(({params}) => {
   for (let i = 0; i < Variables.heroesPerParty; i++) {
     game.parties[1].heroes.push(
       {
+        mana: 0,
         position: [Variables.tilesPerRow-1, 0, i],
         items: [
           _.random(1, 3),
