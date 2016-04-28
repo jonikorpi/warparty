@@ -7,7 +7,7 @@ import Variables from "../Variables";
 
 import Text from "./Text";
 
-export default class Effect extends Component {
+export default class Item extends Component {
 
   constructor(props) {
     super();
@@ -20,9 +20,11 @@ export default class Effect extends Component {
   getEffectName(type) {
     switch (type) {
       case 1:
-        return "Stun";
+        return "Armor";
       case 2:
-        return "Root";
+        return "Shield";
+      case 3:
+        return "Sword";
     }
   }
 
@@ -30,26 +32,31 @@ export default class Effect extends Component {
     return (
       <Entity
         rotation={[
-          -90,
           0,
+          270,
           0,
         ]}
         position={[
           0,
-          Variables.heroHeight * 0.618,
-          0,
+          Variables.heroHeight * 0.5 - (2 * this.props.index * Variables.tileSize*0.125),
+          Variables.heroWidth * 0.5,
         ]}
       >
 
         <Text
-          text={`${this.getEffectName(this.props.data.type)} (${this.props.data.duration})`}
+          text={`${this.getEffectName(this.props.data)}`}
           size={Variables.tileSize*0.125}
           position={[
             0,
-            -2 * this.props.index * Variables.tileSize*0.125,
+            0,
             0,
           ]}
-          color="yellow"
+          rotation={[
+            0,
+            90,
+            0,
+          ]}
+          color="cyan"
         />
 
       </Entity>

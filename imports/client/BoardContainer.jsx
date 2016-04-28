@@ -37,7 +37,7 @@ export default createContainer(({params}) => {
         heroes: [
           {
             position: [0, 0, Variables.tilesPerColumn-1],
-            items: [1, 2, 3, 4],
+            items: [1, 2, 3],
             effects: [
               {
                 type: 1,
@@ -47,17 +47,17 @@ export default createContainer(({params}) => {
           },
           {
             position: [0, 0, Variables.tilesPerColumn-2],
-            items: [1, 2, 3, 4],
+            items: [1, 2, 3],
             effects: [],
           },
           {
             position: [0, 0, Variables.tilesPerColumn-3],
-            items: [1, 2, 3, 4],
+            items: [1, 2, 3],
             effects: [],
           },
           {
             position: [0, 0, Variables.tilesPerColumn-4],
-            items: [1, 2, 3, 4],
+            items: [1, 2, 3],
             effects: [],
           },
         ],
@@ -67,22 +67,22 @@ export default createContainer(({params}) => {
         heroes: [
           {
             position: [Variables.tilesPerRow-1, 0, 0],
-            items: [1, 2, 3, 4],
+            items: [1, 2, 3],
             effects: [],
           },
           {
             position: [Variables.tilesPerRow-1, 0, 1],
-            items: [1, 2, 3, 4],
+            items: [1, 2, 3],
             effects: [],
           },
           {
             position: [Variables.tilesPerRow-1, 0, 2],
-            items: [1, 2, 3, 4],
+            items: [1, 2, 3],
             effects: [],
           },
           {
             position: [Variables.tilesPerRow-1, 0, 3],
-            items: [1, 2, 3, 4],
+            items: [1, 2, 3],
             effects: [
               {
                 type: 1,

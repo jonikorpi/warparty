@@ -6,6 +6,7 @@ import {Animation, Entity, Scene} from "aframe-react";
 
 import Variables from "../Variables";
 
+import Item from "./Item";
 import Effect from "./Effect";
 
 export default class Hero extends Component {
@@ -35,6 +36,16 @@ export default class Hero extends Component {
       return effects.map(
         function(effect, i) {
           return <Effect data={effect} index={i} key={i}/>;
+        }
+      );
+    }
+  }
+
+  getItems(items) {
+    if (items.length > 0) {
+      return items.map(
+        function(item, i) {
+          return <Item data={item} index={i} key={i}/>;
         }
       );
     }
@@ -95,6 +106,7 @@ export default class Hero extends Component {
               ]}
             />
 
+            {this.getItems(this.props.data.items)}
             {this.getEffects(this.props.data.effects)}
 
           </Entity>
