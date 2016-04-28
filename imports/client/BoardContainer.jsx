@@ -34,10 +34,12 @@ export default createContainer(({params}) => {
     turn: 0,
     parties: [
       {
+        playerID: false,
         ready: false,
         heroes: [],
       },
       {
+        playerID: false,
         ready: true,
         heroes: [],
       },
