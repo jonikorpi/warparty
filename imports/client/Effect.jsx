@@ -19,10 +19,21 @@ export default class Effect extends Component {
 
   getEffectName(type) {
     switch (type) {
+      case 0:
+        return "Downed";
       case 1:
         return "Stun";
       case 2:
         return "Root";
+    }
+  }
+
+  getDuration(duration) {
+    if (duration) {
+      return `(${duration})`;
+    }
+    else {
+      return "";
     }
   }
 
@@ -42,7 +53,7 @@ export default class Effect extends Component {
       >
 
         <Text
-          text={`${this.getEffectName(this.props.data.type)} (${this.props.data.duration})`}
+          text={`${this.getEffectName(this.props.data.type)} ${this.getDuration(this.props.data.duration)}`}
           size={Variables.tileSize*0.125}
           position={[
             0,

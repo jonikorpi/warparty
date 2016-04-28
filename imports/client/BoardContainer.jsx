@@ -48,7 +48,12 @@ export default createContainer(({params}) => {
           {
             position: [0, 0, Variables.tilesPerColumn-2],
             items: [1, 2, 3],
-            effects: [],
+            effects: [
+              {
+                type: 0,
+                duration: false,
+              }
+            ],
           },
           {
             position: [0, 0, Variables.tilesPerColumn-3],
