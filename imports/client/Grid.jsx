@@ -38,6 +38,11 @@ export default class Grid extends Component {
     return (
       <Entity
         id="grid"
+        position={[
+          0,
+          -Variables.tileSize * 0.1,
+          0,
+        ]}
       >
 
         {this.getTiles()}

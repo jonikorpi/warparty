@@ -14,6 +14,7 @@ import StarLight from "./StarLight";
 import Grid from "./Grid";
 import Structure from "./Structure";
 import Party from "./Party";
+import Text from "./Text";
 
 export default class Board extends Component {
 
@@ -38,6 +39,69 @@ export default class Board extends Component {
       function(party, i) {
         return <Party data={party} partyID={i} key={i}/>;
       }
+    );
+  }
+
+  getPreGameUI(turn) {
+    if (turn == 0) {
+      return (
+        <Text
+          text="<- Equip your heroes"
+          size={Variables.tileSize * 0.25}
+          color="red"
+          position={[
+            Variables.tileSize * 1.5,
+            0,
+            Variables.tileSize * (Variables.tilesPerColumn - 0.5),
+          ]}
+          rotation={[
+            -90,
+            0,
+            0,
+          ]}
+        />
+      );
+    }
+  }
+
+  getReadinessUI(party, partyID) {
+    let text, positionX;
+
+    switch (party.ready) {
+      case true:
+        text = "Ready";
+        break;
+      case false:
+        text = "Not ready";
+        break;
+    }
+
+    switch (partyID) {
+      case 0:
+        positionX = Variables.tileSize * (2);
+        break;
+      case 1:
+        positionX = Variables.tileSize * (Variables.tilesPerRow - 3);
+        break;
+
+    }
+
+    return (
+      <Text
+        text={text}
+        size={Variables.tileSize * 0.25}
+        color="black"
+        position={[
+          positionX,
+          0,
+          Variables.tileSize * (Variables.tilesPerColumn * 0.5),
+        ]}
+        rotation={[
+          -90,
+          0,
+          0,
+        ]}
+      />
     );
   }
 
@@ -74,6 +138,10 @@ export default class Board extends Component {
           <Grid/>
           {this.getStructures(this.props.game.structures)}
           {this.getParties(this.props.game.parties)}
+
+          {this.getPreGameUI(this.props.game.turn)}
+          {this.getReadinessUI(this.props.game.parties[0], 0)}
+          {this.getReadinessUI(this.props.game.parties[1], 1)}
 
         </Entity>
 

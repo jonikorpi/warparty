@@ -30,10 +30,10 @@ export default createContainer(({params}) => {
 
   const game = {
     id: 1,
-    turn: 3,
+    turn: 0,
     parties: [
       {
-        mana: 4,
+        ready: false,
         heroes: [
           {
             position: [0, 0, Variables.tilesPerColumn-1],
@@ -63,7 +63,7 @@ export default createContainer(({params}) => {
         ],
       },
       {
-        mana: 0,
+        ready: true,
         heroes: [
           {
             position: [Variables.tilesPerRow-1, 0, 0],
