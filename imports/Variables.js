@@ -4,20 +4,17 @@
 Variables = {};
 export default Variables;
 
-Variables.cursorDistance = 6;
-Variables.cursorSize = 0.1618;
-Variables.cursorThickness = 0.764;
-Variables.cursorShrink = 0.618;
+//
+// Gameplay
 
-Variables.time = 1000;
+Variables.tilesPerRow = 11;
+Variables.tilesPerColumn = 7;
 
-Variables.springConfig = {stiffness: 300, damping: 30};
-Variables.walkingSpeed = 1;
+//
+// Visuals
 
 Variables.tileSize = 0.2;
 Variables.tileSizeFactor = 0.91;
-Variables.tilesPerRow = 11;
-Variables.tilesPerColumn = 7;
 Variables.textureSize = 1024;
 
 Variables.heroHeight = Variables.tileSize;
@@ -25,8 +22,27 @@ Variables.heroUnit = Variables.heroHeight/8;
 Variables.heroWidth = Variables.heroUnit * 2.333;
 Variables.heroDepth = Variables.heroUnit * 0.618;
 
+//
+// Camera
+
 Variables.cameraPositionAngle = (Math.atan(12/5) * 180 / Math.PI); // https://en.wikipedia.org/wiki/Pythagorean_triple#Examples
 Variables.clipRange = 100;
+
+Variables.cursorDistance = 6;
+Variables.cursorSize = 0.1618;
+Variables.cursorThickness = 0.764;
+Variables.cursorShrink = 0.618;
+
+//
+// Animations
+
+Variables.springConfig = {stiffness: 300, damping: 30};
+Variables.walkingSpeed = 1;
+
+//
+// Times
+
+Variables.time = 1000;
 
 Variables.shortTime = function(exponent) {
   return Variables.time / Math.pow(1.618, exponent);
