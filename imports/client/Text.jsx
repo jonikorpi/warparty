@@ -36,7 +36,7 @@ export default class Text extends Component {
         }}
         position={this.props.position || [0,0,0]}
         rotation={this.props.rotation || [0,0,0]}
-        look-at={this.props.lookAtCamera ? "#camera" : false}
+        look-at={this.props.lookAtCamera ? "#camera" : ""}
       />
     );
   }
