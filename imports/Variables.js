@@ -9,12 +9,14 @@ export default Variables;
 
 Variables.tilesPerRow = 11;
 Variables.tilesPerColumn = 7;
+Variables.heroesPerParty = 3;
 
 //
 // Visuals
 
 Variables.tileSize = 0.2;
 Variables.tileSizeFactor = 0.91;
+Variables.tileThickness = Variables.tileSize * 0.056;
 Variables.textureSize = 1024;
 
 Variables.heroHeight = Variables.tileSize;

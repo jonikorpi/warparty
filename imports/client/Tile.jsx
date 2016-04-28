@@ -18,7 +18,7 @@ export default class Tile extends Component {
   getPosition(position) {
     return [
       position[0] * Variables.tileSize + Variables.tileSize * 0.5,
-      position[1] * Variables.tileSize,
+      position[1] * Variables.tileSize + (Variables.tileThickness * -0.5),
       position[2] * Variables.tileSize + Variables.tileSize * 0.5,
     ];
   }
@@ -28,15 +28,15 @@ export default class Tile extends Component {
       <Entity
         class="tile"
         geometry={{
-          primitive: "plane",
+          primitive: "box",
           width: Variables.tileSize * Variables.tileSizeFactor,
-          height: Variables.tileSize * Variables.tileSizeFactor,
+          height: Variables.tileThickness,
+          depth: Variables.tileSize * Variables.tileSizeFactor,
         }}
         material={{
           color: "white",
           side: "double",
         }}
-        rotation={[-90, 0, 0]}
         position={this.getPosition(this.props.position)}
       >
 

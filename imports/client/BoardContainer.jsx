@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import _ from "lodash";
 
 import Board from './Board';
 
@@ -34,82 +35,73 @@ export default createContainer(({params}) => {
     parties: [
       {
         ready: false,
-        heroes: [
-          {
-            position: [0, 0, Variables.tilesPerColumn-1],
-            items: [1, 2, 3],
-            effects: [
-              {
-                type: 1,
-                duration: 2,
-              }
-            ],
-          },
-          {
-            position: [0, 0, Variables.tilesPerColumn-2],
-            items: [1, 2, 3],
-            effects: [
-              {
-                type: 0,
-                duration: false,
-              }
-            ],
-          },
-          {
-            position: [0, 0, Variables.tilesPerColumn-3],
-            items: [1, 2, 3],
-            effects: [],
-          },
-          {
-            position: [0, 0, Variables.tilesPerColumn-4],
-            items: [1, 2, 3],
-            effects: [],
-          },
-        ],
+        heroes: [],
       },
       {
         ready: true,
-        heroes: [
+        heroes: [],
+      },
+    ],
+    structures: []
+  };
+
+  for (let i = 0; i < Variables.heroesPerParty; i++) {
+    game.parties[0].heroes.push(
+      {
+        position: [0, 0, Variables.tilesPerColumn-1-i],
+        items: [
+          _.random(1, 3),
+          _.random(1, 3),
+          _.random(1, 3),
+        ],
+        effects: [
           {
-            position: [Variables.tilesPerRow-1, 0, 0],
-            items: [1, 2, 3],
-            effects: [],
+            type: _.random(0, 2),
+            duration: _.random(1, 5),
           },
           {
-            position: [Variables.tilesPerRow-1, 0, 1],
-            items: [1, 2, 3],
-            effects: [],
-          },
-          {
-            position: [Variables.tilesPerRow-1, 0, 2],
-            items: [1, 2, 3],
-            effects: [],
-          },
-          {
-            position: [Variables.tilesPerRow-1, 0, 3],
-            items: [1, 2, 3],
-            effects: [
-              {
-                type: 1,
-                duration: 2,
-              },
-              {
-                type: 2,
-                duration: 3,
-              },
-            ],
+            type: _.random(0, 2),
+            duration: _.random(1, 5),
           },
         ],
       },
-    ],
-    structures: [
-      {
-        id: 3,
-        position: [3, 0, 5],
-        duration: 5,
-      }
-    ]
+    )
   };
+
+  for (let i = 0; i < Variables.heroesPerParty; i++) {
+    game.parties[1].heroes.push(
+      {
+        position: [Variables.tilesPerRow-1, 0, i],
+        items: [
+          _.random(1, 3),
+          _.random(1, 3),
+          _.random(1, 3),
+        ],
+        effects: [
+          {
+            type: _.random(0, 2),
+            duration: _.random(1, 5),
+          },
+          {
+            type: _.random(0, 2),
+            duration: _.random(1, 5),
+          },
+        ],
+      },
+    )
+  };
+
+  game.structures.push(
+    {
+      id: 0,
+      position: [
+        _.random(2, Variables.tilesPerRow-3),
+        0,
+        _.random(0, Variables.tilesPerColumn-1),
+      ],
+      duration: _.random(1, 5),
+    }
+  );
 
   return {
     game: game,

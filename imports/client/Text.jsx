@@ -16,6 +16,10 @@ export default class Text extends Component {
 
   }
 
+  getSize(size) {
+    return size || Variables.tileSize/10;
+  }
+
   render() {
     return (
       <Entity
@@ -23,8 +27,8 @@ export default class Text extends Component {
         text={{
           text: this.props.text,
           style: this.props.style || "normal",
-          size: this.props.size || Variables.tileSize/10,
-          height: this.props.height || 0,
+          size: this.getSize(this.props.size),
+          height: this.props.height || this.getSize(this.props.size) * 0.034,
           font: "helvetiker",
           curveSegments: 12,
           bevelEnabled: false,
