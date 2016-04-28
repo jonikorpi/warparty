@@ -116,7 +116,7 @@ body {
 }
 
 .enter-fade {
-  animation: enter-fade $main-time $main-easing;
+  animation: enter-fade $main-time*5 $main-easing;
 }
 
 .enter-delayed {
