@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import ReactMixin from "react-mixin";
+import ReactLocalStorage from "react-localstorage";
+import { Random } from 'meteor/random';
 import classNames from "classnames";
 import Aframe from "aframe";
 import {Animation, Entity, Scene} from "aframe-react";
@@ -24,7 +27,26 @@ export default class Game extends Component {
       devMode: false,
       width: 0,
       height: 0,
+      playerID: localStorage.playerID || Random.secret(43),
+      heroItems: localStorage.heroItems || this.getDefaultHeroItems(),
     };
+  }
+
+  getStateFilterKeys() {
+    return [
+      "playerID",
+      "heroItems",
+    ];
+  }
+
+  getDefaultHeroItems() {
+    let heroItems = [];
+
+    for (let i = 0; i < Variables.heroesPerParty; i++) {
+      heroItems.push( { items: [0,1,2] } );
+    };
+
+    return heroItems;
   }
 
   componentDidMount() {
@@ -105,4 +127,6 @@ export default class Game extends Component {
     );
   }
 
-}
+};
+
+ReactMixin(Game.prototype, ReactLocalStorage);
