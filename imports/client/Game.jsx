@@ -97,7 +97,8 @@ export default class Game extends Component {
       >
 
         <BoardContainer
-          state={this.state}
+          params={this.props.params}
+          gameState={this.state}
         />
 
       </div>

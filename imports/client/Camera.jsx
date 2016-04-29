@@ -10,9 +10,7 @@ import Cursor from "./Cursor";
 
 export default class Camera extends Component {
 
-  getCameraAltitude(state) {
-    const width = state.width;
-    const height = state.height;
+  getCameraAltitude(width, height) {
     const maxAspectRatio = (Variables.tilesPerRow/5.5) * (Variables.cameraPositionAngle / 90);
     let aspectRatio = (width / height);
 
@@ -23,7 +21,7 @@ export default class Camera extends Component {
     return (Variables.tilesPerRow/5) * (Variables.cameraPositionAngle / 90) / aspectRatio;
   }
 
-  getVRCameraAltitude(state) {
+  getVRCameraAltitude() {
     return 1;
   }
 
@@ -46,7 +44,7 @@ export default class Camera extends Component {
         <Entity
           position={[
             0,
-            this.props.state.inVR ? this.getVRCameraAltitude(this.props.state) : this.getCameraAltitude(this.props.state),
+            this.props.inVR ? this.getVRCameraAltitude() : this.getCameraAltitude(this.props.width, this.props.height),
             0,
           ]}
           rotation={[
@@ -67,12 +65,12 @@ export default class Camera extends Component {
               0,
               0
             ]}
-            look-controls={{ enabled: this.props.state.inVR || this.props.state.devMode }}
+            look-controls={{ enabled: this.props.inVR || this.props.devMode }}
             wasd-controls={{
-              enabled: this.props.state.devMode,
+              enabled: this.props.devMode,
               fly: true,
             }}
-            mouse-cursor={ !this.props.state.inVR }
+            mouse-cursor={ !this.props.inVR }
           >
 
             {/*<Cursor/>*/}

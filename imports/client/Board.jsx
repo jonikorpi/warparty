@@ -117,7 +117,10 @@ export default class Board extends Component {
         <Camera
           id="camera"
           far={Variables.clipRange * 1.5}
-          state={this.props.state}
+          width={this.props.gameState.width}
+          height={this.props.gameState.height}
+          inVR={this.props.gameState.inVR}
+          devMode={this.props.gameState.devMode}
         />
 
         <Sky/>
