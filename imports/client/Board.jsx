@@ -42,8 +42,8 @@ export default class Board extends Component {
     );
   }
 
-  getPreGameUI(turn) {
-    if (turn == 0) {
+  getPreGameUI(state) {
+    if (state == "created") {
       return (
         <Text
           text="<- Equip your heroes"
@@ -139,7 +139,7 @@ export default class Board extends Component {
           {this.getStructures(this.props.game.structures)}
           {this.getParties(this.props.game.parties)}
 
-          {this.getPreGameUI(this.props.game.turn)}
+          {this.getPreGameUI(this.props.game.state)}
           {this.getReadinessUI(this.props.game.parties[0], 0)}
           {this.getReadinessUI(this.props.game.parties[1], 1)}
 

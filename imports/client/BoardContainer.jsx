@@ -31,7 +31,9 @@ export default createContainer(({params}) => {
 
   const game = {
     id: 1,
-    turn: 0,
+    datetime: new Date(),
+    turn: 1,
+    state: "created", // created, started, finished
     parties: [
       {
         playerID: false,
@@ -52,6 +54,8 @@ export default createContainer(({params}) => {
       {
         mana: 0,
         position: [0, 0, Variables.tilesPerColumn-1-i],
+        rotation: [0, 0, 0],
+        lastItemUsed: 1,
         items: [
           _.random(1, 3),
           _.random(1, 3),
@@ -76,6 +80,8 @@ export default createContainer(({params}) => {
       {
         mana: 0,
         position: [Variables.tilesPerRow-1, 0, i],
+        rotation: [0, 0, 0],
+        lastItemUsed: 1,
         items: [
           _.random(1, 3),
           _.random(1, 3),
