@@ -7,8 +7,8 @@ export default Variables;
 //
 // Gameplay
 
-Variables.tilesPerRow = 11;
-Variables.tilesPerColumn = 7;
+Variables.tilesPerRow = 9;
+Variables.tilesPerColumn = 6;
 Variables.heroesPerParty = 3;
 
 //

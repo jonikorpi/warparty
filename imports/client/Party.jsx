@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import classNames from "classnames";
 import Aframe from "aframe";
 import {Animation, Entity, Scene} from "aframe-react";
 
@@ -17,7 +16,9 @@ export default class Party extends Component {
 
   }
 
-  getHeroes(heroes, party) {
+  getHeroes(heroes, partyID) {
+    const party = partyID || 0;
+
     return heroes.map(
       function(hero, i) {
         return <Hero data={hero} party={party} key={i}/>;

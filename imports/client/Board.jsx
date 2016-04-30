@@ -12,9 +12,9 @@ import AmbientLight from "./AmbientLight";
 import StarLight from "./StarLight";
 
 import Grid from "./Grid";
-import Structure from "./Structure";
-import Party from "./Party";
-import Text from "./Text";
+
+import PreMatch from "./PreMatch";
+import Match from "./Match";
 
 export default class Board extends Component {
 
@@ -26,89 +26,23 @@ export default class Board extends Component {
 
   }
 
-  getStructures(structures) {
-    return structures.map(
-      function(structure, i) {
-        return <Structure data={structure} key={i}/>;
-      }
-    );
-  }
-
-  getParties(parties) {
-    return parties.map(
-      function(party, i) {
-        return <Party data={party} partyID={i} key={i}/>;
-      }
-    );
-  }
-
-  getPreGameUI(state) {
-    if (state == "created") {
+  getMatchComponentByState(match) {
+    if (match) {
       return (
-        <Text
-          text="<- Equip your heroes"
-          size={Variables.tileSize * 0.25}
-          color="red"
-          position={[
-            Variables.tileSize * 1.5,
-            0,
-            Variables.tileSize * (Variables.tilesPerColumn - 0.5),
-          ]}
-          rotation={[
-            -90,
-            0,
-            0,
-          ]}
-        />
+        <Match match={match}/>
       );
     }
-  }
-
-  getReadinessUI(party, partyID) {
-    let text, positionX;
-
-    switch (party.ready) {
-      case true:
-        text = "Ready";
-        break;
-      case false:
-        text = "Not ready";
-        break;
+    else {
+      return (
+        <PreMatch/>
+      );
     }
-
-    switch (partyID) {
-      case 0:
-        positionX = Variables.tileSize * (2);
-        break;
-      case 1:
-        positionX = Variables.tileSize * (Variables.tilesPerRow - 3);
-        break;
-
-    }
-
-    return (
-      <Text
-        text={text}
-        size={Variables.tileSize * 0.25}
-        color="black"
-        position={[
-          positionX,
-          0,
-          Variables.tileSize * (Variables.tilesPerColumn * 0.5),
-        ]}
-        rotation={[
-          -90,
-          0,
-          0,
-        ]}
-      />
-    );
   }
 
   render() {
     return (
       <Scene
-        id="board"
+        id="scene"
         vr-mode-ui={{
           enabled: true,
         }}
@@ -125,12 +59,11 @@ export default class Board extends Component {
 
         <Sky/>
         <Floor/>
-
         <AmbientLight/>
         <StarLight/>
 
         <Entity
-          id="center"
+          id="board"
           position={[
             -Variables.tileSize * Variables.tilesPerRow * 0.5,
             0,
@@ -139,12 +72,15 @@ export default class Board extends Component {
         >
 
           <Grid/>
-          {this.getStructures(this.props.game.structures)}
+
+          {this.getMatchComponentByState(this.props.match)}
+
+          {/*{this.getStructures(this.props.game.structures)}
           {this.getParties(this.props.game.parties)}
 
           {this.getPreGameUI(this.props.game.state)}
           {this.getReadinessUI(this.props.game.parties[0], 0)}
-          {this.getReadinessUI(this.props.game.parties[1], 1)}
+          {this.getReadinessUI(this.props.game.parties[1], 1)}*/}
 
         </Entity>
 

@@ -29,25 +29,32 @@ export default createContainer(({params}) => {
   //   todos: listExists ? list.todos().fetch() : [],
   // };
 
-  const game = {
-    id: 1,
-    datetime: new Date(),
-    turn: 1,
-    state: "created", // created, started, finished
-    parties: [
-      {
-        playerID: false,
-        ready: false,
-        heroes: [],
-      },
-      {
-        playerID: false,
-        ready: true,
-        heroes: [],
-      },
-    ],
-    structures: []
-  };
+  let match = false;
+
+  // TODO: get a real match from Meteor
+  // TODO: show an error somehow if the match wasn't found
+
+  if (params.matchID) {
+    match = {
+      id: params.matchID,
+      datetime: new Date(),
+      turn: 1,
+      state: "created", // created, started, finished
+      parties: [
+        {
+          playerID: false,
+          ready: false,
+          heroes: [],
+        },
+        {
+          playerID: false,
+          ready: true,
+          heroes: [],
+        },
+      ],
+      structures: []
+    };
+  }
 
   // for (let i = 0; i < Variables.heroesPerParty; i++) {
   //   game.parties[0].heroes.push(
@@ -114,7 +121,7 @@ export default createContainer(({params}) => {
   // );
 
   return {
-    game: game,
+    match: match,
   };
 
 }, Board);

@@ -9,7 +9,7 @@ Meteor.startup(() => {
   render(
     <Router history={browserHistory}>
       <Route path="/" component={Game} />
-      <Route path="/:gameID" component={Game} />
+      <Route path="/:matchID" component={Game} />
     </Router>,
     document.getElementById("game")
   );
