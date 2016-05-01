@@ -19,12 +19,12 @@ export default class Item extends Component {
 
   getEffectName(type) {
     switch (type) {
+      case 0:
+        return "Default Armor";
       case 1:
-        return "Armor";
+        return "Default Shield";
       case 2:
-        return "Shield";
-      case 3:
-        return "Sword";
+        return "Default Sword";
     }
   }
 

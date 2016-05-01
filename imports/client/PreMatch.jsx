@@ -4,8 +4,7 @@ import {Animation, Entity, Scene} from "aframe-react";
 
 import Variables from "../Variables";
 
-import Party from "./Party";
-import Text from "./Text";
+import PartySelector from "./PartySelector";
 
 export default class PreMatch extends Component {
 
@@ -17,35 +16,13 @@ export default class PreMatch extends Component {
 
   }
 
-  getPreGameUI(state) {
-    if (state == "created") {
-      return (
-        <Text
-          text="<- Equip your heroes"
-          size={Variables.tileSize * 0.25}
-          color="red"
-          position={[
-            Variables.tileSize * 1.5,
-            0,
-            Variables.tileSize * (Variables.tilesPerColumn - 0.5),
-          ]}
-          rotation={[
-            -90,
-            0,
-            0,
-          ]}
-        />
-      );
-    }
-  }
-
   render() {
     return (
       <Entity
         id="pre-match"
       >
 
-        {/*{this.getPreGameUI(this.props.game.state)}*/}
+        <PartySelector/>
 
       </Entity>
     );

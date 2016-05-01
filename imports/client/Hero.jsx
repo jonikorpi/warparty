@@ -33,7 +33,7 @@ export default class Hero extends Component {
   }
 
   getEffects(effects) {
-    if (effects.length > 0) {
+    if (effects && effects.length > 0) {
       return effects.map(
         function(effect, i) {
           return <Effect data={effect} index={i} key={i}/>;
@@ -43,11 +43,28 @@ export default class Hero extends Component {
   }
 
   getItems(items) {
-    if (items.length > 0) {
+    if (items && items.length > 0) {
       return items.map(
         function(item, i) {
           return <Item data={item} index={i} key={i}/>;
         }
+      );
+    }
+  }
+
+  getMana(mana) {
+    if (mana) {
+      return (
+        <Text
+          text={mana}
+          size={Variables.tileSize*0.25}
+          position={[
+            Variables.tileSize * -0.25,
+            0,
+            0,
+          ]}
+          color="cyan"
+        />
       );
     }
   }
@@ -109,17 +126,7 @@ export default class Hero extends Component {
 
             {this.getItems(this.props.data.items)}
             {this.getEffects(this.props.data.effects)}
-
-            <Text
-              text={this.props.data.mana}
-              size={Variables.tileSize*0.25}
-              position={[
-                Variables.tileSize * -0.25,
-                0,
-                0,
-              ]}
-              color="cyan"
-            />
+            {this.getMana(this.props.data.mana)}
 
           </Entity>
         }
