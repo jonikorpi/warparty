@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
-import _ from "lodash";
 
 import Board from './Board';
 

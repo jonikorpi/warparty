@@ -10,7 +10,6 @@
     "aframe-text-component": "^0.3.0",
     "classnames": "^2.2.3",
     "combokeys": "^2.4.6",
-    "lodash": "^4.11.1",
     "react": "^15.0.1",
     "react-addons-pure-render-mixin": "^15.0.1",
     "react-dom": "^15.0.1",
