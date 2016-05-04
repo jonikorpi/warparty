@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import classNames from "classnames";
 import Aframe from "aframe";
 import {Animation, Entity, Scene} from "aframe-react";
 import Combokeys from "combokeys";
+import classNames from "classnames";
 
 import Variables from "../Variables";
 

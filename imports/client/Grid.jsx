@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {Motion, spring} from "react-motion";
-import classNames from "classnames";
 import Aframe from "aframe";
 import {Animation, Entity, Scene} from "aframe-react";
 
