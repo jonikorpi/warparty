@@ -16,12 +16,20 @@ export default class Party extends Component {
 
   }
 
-  getHeroes(heroes, partyID) {
+  getHeroes(heroes, partyID, onItemChange) {
     const party = partyID || 0;
 
     return heroes.map(
       function(hero, i) {
-        return <Hero data={hero} party={party} key={i}/>;
+        return (
+          <Hero
+            data={hero}
+            party={party}
+            heroID={i}
+            key={i}
+            onItemChange={onItemChange}
+          />
+        );
       }
     );
   }
@@ -32,7 +40,11 @@ export default class Party extends Component {
         class="party"
       >
 
-        {this.getHeroes(this.props.data.heroes, this.props.partyID)}
+        {this.getHeroes(
+          this.props.data.heroes,
+          this.props.partyID,
+          this.props.onItemChange
+        )}
 
       </Entity>
     );

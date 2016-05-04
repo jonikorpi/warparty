@@ -7,46 +7,68 @@ import Variables from "../Variables";
 
 import Text from "./Text";
 import Item from "./Item";
+import ItemSelector from "./ItemSelector";
 import Effect from "./Effect";
 
 export default class Hero extends Component {
 
   constructor(props) {
     super();
+
+    this.onHeroClick = this.onHeroClick.bind(this);
+    this.getItems = this.getItems.bind(this);
+
+    this.state = {
+      itemsOpen: false,
+    };
   }
 
   componentDidMount() {
 
   }
 
-  onPlayerClick(event) {
-    console.log("player clicked");
-  }
-
-  startPlayerHover(event) {
-    // console.log(event);
-  }
-
-  endPlayerHover(event) {
-    // console.log(event);
-  }
-
   getEffects(effects) {
     if (effects && effects.length > 0) {
       return effects.map(
         function(effect, i) {
-          return <Effect data={effect} index={i} key={i}/>;
+          return (
+            <Effect
+              data={effect}
+              index={i}
+              key={i}
+            />
+          );
         }
       );
     }
   }
 
-  getItems(items) {
+  getItems(items, itemsOpen) {
+    const that = this;
     if (items && items.length > 0) {
       return items.map(
         function(item, i) {
-          return <Item data={item} index={i} key={i}/>;
+          return (
+            <Item
+              data={item}
+              slot={i}
+              key={i}
+              doOnClick={that.onHeroClick}
+            />
+          );
         }
+      );
+    }
+  }
+
+  getItemSelector(itemsOpen, items, onItemChange, heroID) {
+    if (itemsOpen) {
+      return (
+        <ItemSelector
+          items={items}
+          heroID={heroID}
+          onItemChange={onItemChange}
+        />
       );
     }
   }
@@ -83,6 +105,21 @@ export default class Hero extends Component {
     return rotation;
   }
 
+  onHeroClick() {
+    this.setState({
+      itemsOpen: !this.state.itemsOpen,
+    });
+  }
+
+  onHeroMouseEnter() {
+
+  }
+
+  onHeroMouseLeave() {
+
+  }
+
+
   render() {
     return (
       <Motion
@@ -113,9 +150,9 @@ export default class Hero extends Component {
               material={{
                 color: "red",
               }}
-              onClick={this.onPlayerClick}
-              onMouseEnter={this.startPlayerHover}
-              onMouseLeave={this.endPlayerHover}
+              onClick={this.onHeroClick}
+              onMouseEnter={this.onHeroMouseEnter}
+              onMouseLeave={this.onHeroMouseLeave}
               rotation={[
                 0,
                 this.getRotation(this.props.party),
@@ -123,9 +160,38 @@ export default class Hero extends Component {
               ]}
             />
 
-            {this.getItems(this.props.data.items)}
-            {this.getEffects(this.props.data.effects)}
-            {this.getMana(this.props.data.mana)}
+            <Entity
+              class="hero-items"
+              position={[
+                0,
+                0,
+                0,
+              ]}
+              rotation={[
+                0,
+                this.getRotation(this.props.party),
+                0,
+              ]}
+            >
+
+              {this.getItems(this.props.data.items)}
+              {this.getEffects(this.props.data.effects)}
+              {this.getMana(this.props.data.mana)}
+
+            </Entity>
+
+            <Entity
+              class="hero-overlay"
+            >
+
+              {this.getItemSelector(
+                this.state.itemsOpen,
+                this.props.data.items,
+                this.props.onItemChange,
+                this.props.heroID
+              )}
+
+            </Entity>
 
           </Entity>
         }

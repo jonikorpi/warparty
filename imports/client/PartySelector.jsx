@@ -16,6 +16,8 @@ export default class PartySelector extends Component {
   constructor(props) {
     super();
 
+    this.onItemChange = this.onItemChange.bind(this);
+
     this.state = {
       playerID: localStorage.playerID || Random.secret(43),
       heroItems: localStorage.heroItems || this.getDefaultHeroItems(),
@@ -37,7 +39,7 @@ export default class PartySelector extends Component {
     let heroItems = [];
 
     for (let i = 0; i < Variables.heroesPerParty; i++) {
-      heroItems.push( { items: [0,1,2] } );
+      heroItems.push( [0,0,0] );
     };
 
     return heroItems;
@@ -53,12 +55,21 @@ export default class PartySelector extends Component {
         {
           position: [0, 0, Variables.tilesPerColumn-1-i],
           rotation: [0, 0, 0],
-          items: heroItems[i].items,
+          items: heroItems[i],
         },
       )
     };
 
     return party;
+  }
+
+  onItemChange(hero, slot, item) {
+    console.log(`onItemChange for hero ${hero} to equip ${item} in slot ${slot}`);
+    let heroItems = this.state.heroItems;
+    heroItems[hero][slot] = item;
+    this.setState({
+      heroItems: heroItems
+    });
   }
 
   render() {
@@ -70,6 +81,7 @@ export default class PartySelector extends Component {
         <Party
           data={this.getDefaultParty(this.state.heroItems)}
           partyID={0}
+          onItemChange={this.onItemChange}
         />
 
         <Text

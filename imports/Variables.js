@@ -14,7 +14,7 @@ Variables.heroesPerParty = 3;
 //
 // Visuals
 
-Variables.tileSize = 0.2;
+Variables.tileSize = 0.3;
 Variables.tileSizeFactor = 0.91;
 Variables.tileThickness = Variables.tileSize * 0.056;
 Variables.textureSize = 1024;
@@ -27,8 +27,8 @@ Variables.heroDepth = Variables.heroUnit * 0.618;
 //
 // Camera
 
-Variables.cameraPositionAngle = (Math.atan(12/5) * 180 / Math.PI); // https://en.wikipedia.org/wiki/Pythagorean_triple#Examples
-Variables.clipRange = 100;
+Variables.cameraPositionAngle = (Math.atan(5/3) * 180 / Math.PI); // https://en.wikipedia.org/wiki/Pythagorean_triple#Examples
+Variables.clipRange = Variables.tileSize * 100;
 
 Variables.cursorDistance = 6;
 Variables.cursorSize = 0.1618;
