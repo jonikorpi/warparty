@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import classNames from "classnames";
 import Aframe from "aframe";
 import {Animation, Entity, Scene} from "aframe-react";
 import "aframe-mouse-cursor-component";
@@ -11,18 +10,21 @@ import Cursor from "./Cursor";
 export default class Camera extends Component {
 
   getCameraAltitude(width, height) {
-    const maxAspectRatio = (Variables.tilesPerRow/5.5) * (Variables.cameraPositionAngle / 90);
+    const boardAspectRatio =
+      (Variables.tilesPerRow * Variables.tileSize) /
+      ((Variables.tilesPerColumn * 1.5) * Variables.tileSize / (90 / Variables.cameraPositionAngle))
+    ;
     let aspectRatio = (width / height);
 
-    if (aspectRatio > maxAspectRatio) {
-      aspectRatio = maxAspectRatio;
+    if (aspectRatio > boardAspectRatio) {
+      aspectRatio = boardAspectRatio;
     }
 
-    return (Variables.tilesPerRow/5) * (Variables.cameraPositionAngle / 90) / aspectRatio;
+    return (Variables.cameraPositionAngle / 90) / (aspectRatio / (Variables.tileSize * 11));
   }
 
   getVRCameraAltitude() {
-    return 1;
+    return 2;
   }
 
   render() {
@@ -30,7 +32,7 @@ export default class Camera extends Component {
       <Entity
         id="camera-container"
         rotation={[
-          90 - Variables.cameraPositionAngle,
+          -Variables.cameraPositionAngle,
           0,
           0,
         ]}
@@ -44,11 +46,11 @@ export default class Camera extends Component {
         <Entity
           position={[
             0,
-            this.props.inVR ? this.getVRCameraAltitude() : this.getCameraAltitude(this.props.width, this.props.height),
             0,
+            this.props.inVR ? this.getVRCameraAltitude() : this.getCameraAltitude(this.props.width, this.props.height),
           ]}
           rotation={[
-            (90 - Variables.cameraPositionAngle) * -1,
+            Variables.cameraPositionAngle,
             0,
             0,
           ]}
