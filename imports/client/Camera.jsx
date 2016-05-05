@@ -20,7 +20,7 @@ export default class Camera extends Component {
       aspectRatio = boardAspectRatio;
     }
 
-    return (Variables.cameraPositionAngle / 90) / (aspectRatio / (Variables.tileSize * (870 / Variables.screenFOV)));
+    return (Variables.cameraPositionAngle / 90) / (aspectRatio / (Variables.tileSize * (1020 / Variables.screenFOV)));
   }
 
   getVRCameraAltitude() {
@@ -39,7 +39,7 @@ export default class Camera extends Component {
         position={[
           0,
           0,
-          Variables.tileSize * (Variables.tilesPerColumn/10) / (Variables.cameraPositionAngle / 90),
+          this.props.inVR || this.props.devMode ? 0 : Variables.tileSize * (Variables.tilesPerColumn/16) / (Variables.cameraPositionAngle / 90),
         ]}
       >
 

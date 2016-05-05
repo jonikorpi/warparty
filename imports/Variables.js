@@ -27,7 +27,7 @@ Variables.heroDepth = Variables.heroUnit * 0.618;
 //
 // Camera
 
-Variables.cameraPositionAngle = (Math.atan(5/3) * 180 / Math.PI); // https://en.wikipedia.org/wiki/Pythagorean_triple#Examples
+Variables.cameraPositionAngle = (Math.atan(4/3) * 180 / Math.PI); // https://en.wikipedia.org/wiki/Pythagorean_triple#Examples
 Variables.clipRange = Variables.tileSize * 100;
 Variables.screenFOV = 45;
 Variables.VRFOV = 80;
