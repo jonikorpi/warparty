@@ -20,11 +20,11 @@ export default class Camera extends Component {
       aspectRatio = boardAspectRatio;
     }
 
-    return (Variables.cameraPositionAngle / 90) / (aspectRatio / (Variables.tileSize * 11));
+    return (Variables.cameraPositionAngle / 90) / (aspectRatio / (Variables.tileSize * (870 / Variables.screenFOV)));
   }
 
   getVRCameraAltitude() {
-    return 2;
+    return Variables.tileSize * 6.5;
   }
 
   render() {
@@ -47,7 +47,7 @@ export default class Camera extends Component {
           position={[
             0,
             0,
-            this.props.inVR ? this.getVRCameraAltitude() : this.getCameraAltitude(this.props.width, this.props.height),
+            this.props.inVR || this.props.devMode ? this.getVRCameraAltitude() : this.getCameraAltitude(this.props.width, this.props.height),
           ]}
           rotation={[
             Variables.cameraPositionAngle,
@@ -61,9 +61,10 @@ export default class Camera extends Component {
             camera={{
               far: this.props.far || 10000,
               near: this.props.near || 0.001,
+              fov: this.props.inVR || this.props.devMode ? Variables.VRFOV : Variables.screenFOV,
             }}
             rotation={[
-              -Variables.cameraPositionAngle,
+              this.props.inVR || this.props.devMode ? 0 : -Variables.cameraPositionAngle,
               0,
               0
             ]}
