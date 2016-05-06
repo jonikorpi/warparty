@@ -77,12 +77,11 @@ export default class Match extends Component {
 
   render() {
     return (
-      <Entity
-        id="match"
-      >
+      <Entity id="match">
+
+        {this.getParties([this.props.match.leftParty, this.props.match.rightParty])}
 
         {/*{this.getStructures(this.props.game.structures)}
-        {this.getParties(this.props.game.parties)}
 
         {this.getReadinessUI(this.props.game.parties[0], 0)}
         {this.getReadinessUI(this.props.game.parties[1], 1)}*/}

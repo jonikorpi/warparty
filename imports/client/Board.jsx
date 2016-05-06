@@ -25,11 +25,13 @@ export default class Board extends Component {
 
   }
 
-  getMatchComponentByState(match) {
-    if (match) {
-      return (
-        <Match match={match}/>
-      );
+  getMatchComponentByState(matchID, match) {
+    if (matchID) {
+      if (match) {
+        return (
+          <Match match={match}/>
+        );
+      }
     }
     else {
       return (
@@ -72,7 +74,7 @@ export default class Board extends Component {
 
           <Grid/>
 
-          {this.getMatchComponentByState(this.props.match)}
+          {this.getMatchComponentByState(this.props.params.matchID, this.props.match)}
 
           {/*{this.getStructures(this.props.game.structures)}
           {this.getParties(this.props.game.parties)}

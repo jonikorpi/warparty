@@ -31,40 +31,13 @@ export default createContainer(({params}) => {
 
   let match = false;
 
-  // TODO: show an error somehow if the match wasn't found
-
   if (params.matchID) {
     Meteor.subscribe("matches", params.matchID);
+    // TODO: show an error somehow if the match wasn't found
 
     match = Matches.findOne({_id: params.matchID});
   }
 
-  //
-  // for (let i = 0; i < Variables.heroesPerParty; i++) {
-  //   game.parties[1].heroes.push(
-  //     {
-  //       mana: 0,
-  //       position: [Variables.tilesPerRow-1, 0, i],
-  //       rotation: [0, 0, 0],
-  //       lastItemUsed: 1,
-  //       items: [
-  //         _.random(1, 3),
-  //         _.random(1, 3),
-  //         _.random(1, 3),
-  //       ],
-  //       effects: [
-  //         {
-  //           type: _.random(0, 2),
-  //           duration: _.random(1, 5),
-  //         },
-  //         {
-  //           type: _.random(0, 2),
-  //           duration: _.random(1, 5),
-  //         },
-  //       ],
-  //     },
-  //   )
-  // };
   //
   // game.structures.push(
   //   {
