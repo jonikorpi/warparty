@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
+import { DDPRateLimiter } from 'meteor/ddp-rate-limiter'
 
 export const Matches = new Mongo.Collection('matches');
 
@@ -101,3 +102,34 @@ Meteor.methods({
   // },
 
 });
+
+//
+// Rate-limiting rules
+
+if (Meteor.isServer) {
+
+  DDPRateLimiter.addRule(
+    {
+      type: "method",
+      name: "matches.create",
+      clientAddress: function(clientAddress) {
+        return clientAddress;
+      },
+    },
+    4,
+    10000
+  );
+
+  DDPRateLimiter.addRule(
+    {
+      type: "method",
+      name: "matches.create",
+      connectionId: function(connectionId) {
+        return connectionId;
+      },
+    },
+    4,
+    10000
+  );
+
+}

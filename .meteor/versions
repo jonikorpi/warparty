@@ -19,6 +19,7 @@ coffeescript@1.0.17
 ddp@1.2.5
 ddp-client@1.2.7
 ddp-common@1.2.5
+ddp-rate-limiter@1.0.4
 ddp-server@1.2.6
 deps@1.0.12
 diff-sequence@1.0.5
@@ -59,6 +60,7 @@ peerlibrary:reactive-publish@0.2.0
 peerlibrary:server-autorun@0.5.2
 promise@0.6.7
 random@1.0.9
+rate-limit@1.0.4
 react-meteor-data@0.2.9
 reactive-dict@1.1.7
 reactive-var@1.0.9
