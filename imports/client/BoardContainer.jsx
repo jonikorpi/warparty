@@ -1,10 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
+import { Matches } from "../collections/Matches.js";
+
 import Board from './Board';
 
 export default createContainer(({params}) => {
-
   // Do all your reactive data access in this method.
   // Note that this subscription will get cleaned up when your component is unmounted
   // var handle = Meteor.subscribe("todoList", this.props.id);
@@ -30,29 +31,12 @@ export default createContainer(({params}) => {
 
   let match = false;
 
-  // TODO: get a real match from Meteor
   // TODO: show an error somehow if the match wasn't found
 
   if (params.matchID) {
-    match = {
-      id: params.matchID,
-      datetime: new Date(),
-      turn: 1,
-      state: "created", // created, started, finished
-      parties: [
-        {
-          playerID: false,
-          ready: false,
-          heroes: [],
-        },
-        {
-          playerID: false,
-          ready: true,
-          heroes: [],
-        },
-      ],
-      structures: []
-    };
+    Meteor.subscribe("matches", params.matchID);
+
+    match = Matches.find({_id: params.matchID}).fetch();
   }
 
   // for (let i = 0; i < Variables.heroesPerParty; i++) {

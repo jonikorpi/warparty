@@ -18,10 +18,20 @@ export default class PartySelector extends Component {
 
     this.onItemChange = this.onItemChange.bind(this);
 
-    this.state = {
-      playerID: localStorage.playerID || Random.secret(43),
-      heroItems: localStorage.heroItems || this.getDefaultHeroItems(),
-    };
+    const localStorageData = JSON.parse( localStorage.getItem("PartySelector") );
+
+    if (localStorageData) {
+      this.state = {
+        playerID: localStorageData.playerID,
+        heroItems: localStorageData.heroItems,
+      };
+    }
+    else {
+      this.state = {
+        playerID: Random.secret(43),
+        heroItems: this.getDefaultHeroItems(),
+      };
+    }
   }
 
   componentDidMount() {

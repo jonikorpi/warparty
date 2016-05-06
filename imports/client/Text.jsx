@@ -16,7 +16,7 @@ export default class Text extends Component {
   }
 
   getSize(size) {
-    return size || Variables.tileSize/10;
+    return this.props.size || Variables.tileSize/2;
   }
 
   render() {
@@ -26,6 +26,7 @@ export default class Text extends Component {
         text={{
           text: this.props.text,
           style: this.props.style || "normal",
+          weight: this.props.weight || "normal",
           size: this.getSize(this.props.size),
           height: this.props.height || this.getSize(this.props.size) * 0.034,
           font: "helvetiker",
@@ -40,6 +41,7 @@ export default class Text extends Component {
         position={this.props.position || [0,0,0]}
         rotation={this.props.rotation || [0,0,0]}
         look-at={this.props.lookAtCamera ? "#camera" : ""}
+        onClick={this.props.onClick}
       />
     );
   }
