@@ -4,6 +4,8 @@ import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter'
 
+import Variables from "../Variables.js";
+
 export const Matches = new Mongo.Collection('matches');
 
 //
@@ -44,23 +46,38 @@ Meteor.methods({
       [[Match.Integer]]
     );
 
-    return Matches.insert(
-      {
-        datetime: new Date(),
-        turn: 1,
-        state: "created", // created, started, finished
-        leftParty: {
-          playerID: playerID,
-          ready: false,
-          heroes: heroItems,
-        },
-        rightParty: {
-          playerID: undefined,
-          ready: false,
-          heroes: undefined,
-        },
-        structures: []
+    match = {
+      datetime: new Date(),
+      turn: 1,
+      state: "created", // created, started, finished
+      leftParty: {
+        playerID: playerID,
+        ready: false,
+        heroes: [],
       },
+      rightParty: {
+        playerID: undefined,
+        ready: false,
+        heroes: [],
+      },
+      structures: []
+    };
+
+    for (let i = 0; i < Variables.heroesPerParty; i++) {
+      match.leftParty.heroes.push(
+        {
+          mana: 0,
+          position: [0, 0, Variables.tilesPerColumn-1-i],
+          rotation: [0, 0, 0],
+          lastItemUsed: undefined,
+          items: heroItems[i],
+          effects: [],
+        },
+      )
+    };
+
+    return Matches.insert(
+      match,
       function (error, result) {
         return error || result;
       }
