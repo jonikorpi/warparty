@@ -3,6 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { Match } from 'meteor/check';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter'
+import { Random } from 'meteor/random';
 
 import Variables from "../Variables.js";
 
@@ -60,7 +61,17 @@ Meteor.methods({
         ready: false,
         heroes: [],
       },
-      structures: []
+      structures: [
+        {
+          type: 0,
+          position: [
+            2 + Math.round(Variables.tilesPerRow * 0.5 * Random.fraction()),
+            0,
+            Math.round(Variables.tilesPerRow * 0.5 * Random.fraction()),
+          ],
+          duration: 10,
+        }
+      ],
     };
 
     for (let i = 0; i < Variables.heroesPerParty; i++) {
