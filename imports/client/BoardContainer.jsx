@@ -30,9 +30,10 @@ export default createContainer(({params}) => {
   // };
 
   let match = false;
+  const localStorageData = JSON.parse( localStorage.getItem("PartySelector") );
 
   if (params.matchID) {
-    Meteor.subscribe("matches", params.matchID);
+    Meteor.subscribe("matches", params.matchID, localStorageData.playerID);
     // TODO: show an error somehow if the match wasn't found
 
     match = Matches.findOne({_id: params.matchID});

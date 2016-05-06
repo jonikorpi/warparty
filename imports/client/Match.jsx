@@ -6,6 +6,8 @@ import Variables from "../Variables";
 
 import Structure from "./Structure";
 import Party from "./Party";
+import PartyDisplay from "./PartyDisplay";
+import PartyControls from "./PartyControls";
 import Text from "./Text";
 
 export default class Match extends Component {
@@ -34,44 +36,30 @@ export default class Match extends Component {
     );
   }
 
-  getReadinessUI(party, partyID) {
-    let text, positionX;
-
-    switch (party.ready) {
-      case true:
-        text = "Ready";
-        break;
-      case false:
-        text = "Not ready";
-        break;
-    }
-
-    switch (partyID) {
-      case 0:
-        positionX = Variables.tileSize * (2);
-        break;
-      case 1:
-        positionX = Variables.tileSize * (Variables.tilesPerRow - 3);
-        break;
-
-    }
-
-    return (
-      <Text
-        text={text}
-        size={Variables.tileSize * 0.25}
-        color="black"
-        position={[
-          positionX,
-          0,
-          Variables.tileSize * (Variables.tilesPerColumn * 0.5),
-        ]}
-        rotation={[
-          -90,
-          0,
-          0,
-        ]}
-      />
+  getPartyUIs(parties, matchState) {
+    return parties.map(
+      function(party, partyID) {
+        if (party.playerID) {
+          return (
+            <PartyControls
+              party={party}
+              key={partyID}
+              partyID={partyID}
+              matchState={matchState}
+            />
+          );
+        }
+        else {
+          return (
+            <PartyDisplay
+              party={party}
+              key={partyID}
+              partyID={partyID}
+              matchState={matchState}
+            />
+          );
+        }
+      }
     );
   }
 
@@ -82,10 +70,7 @@ export default class Match extends Component {
         {this.getParties([this.props.match.leftParty, this.props.match.rightParty])}
         {this.getStructures(this.props.match.structures)}
 
-        {/*
-          {this.getReadinessUI(this.props.game.parties[0], 0)}
-          {this.getReadinessUI(this.props.game.parties[1], 1)}
-        */}
+        {this.getPartyUIs([this.props.match.leftParty, this.props.match.rightParty], this.props.match.state)}
 
       </Entity>
     );

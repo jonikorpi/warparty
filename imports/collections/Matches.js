@@ -16,18 +16,44 @@ if (Meteor.isServer) {
 
   Meteor.publish(
     "matches",
-    function matchesPublication(matchID) {
+    function matchPublication(matchID, playerID) {
       check(matchID, String);
+      check(playerID, Match.Maybe(String));
+
+      let restrictedFields = {
+        "leftParty.playerID": 0,
+        "rightParty.playerID": 0,
+      };
+
+      const controlledMatch = Matches.findOne(
+        {
+          _id: matchID,
+          $or: [
+            { "leftParty.playerID": playerID },
+            { "rightParty.playerID": playerID },
+          ],
+        },
+      );
+
+      if (controlledMatch) {
+        if (controlledMatch.leftParty.playerID == playerID) {
+          restrictedFields = {
+            "rightParty.playerID": 0,
+          };
+        }
+        else if (controlledMatch.rightParty.playerID == playerID) {
+          restrictedFields = {
+            "leftParty.playerID": 0,
+          };
+        }
+      }
 
       return Matches.find(
         {
           _id: matchID,
         },
         {
-          fields: {
-            "leftParty.playerID": 0,
-            "rightParty.playerID": 0,
-          }
+          fields: restrictedFields,
         }
       );
     }
