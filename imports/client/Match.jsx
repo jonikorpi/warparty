@@ -8,7 +8,7 @@ import Structure from "./Structure";
 import Party from "./Party";
 import PartyDisplay from "./PartyDisplay";
 import PartyControls from "./PartyControls";
-import Text from "./Text";
+import MatchUI from "./MatchUI";
 
 export default class Match extends Component {
 
@@ -71,6 +71,8 @@ export default class Match extends Component {
         {this.getStructures(this.props.match.structures)}
 
         {this.getPartyUIs([this.props.match.leftParty, this.props.match.rightParty], this.props.match.state)}
+
+        <MatchUI match={this.props.match}/>
 
       </Entity>
     );
