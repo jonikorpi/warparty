@@ -18,9 +18,21 @@ export default class MatchUI extends Component {
 
   render() {
     return (
-      <Text
-        text="MatchUI"
-      />
+      <Entity
+        position={
+          [
+            (Variables.tilesPerRow / 3) * Variables.tileSize * 1.5,
+            0,
+            0,
+          ]
+        }
+      >
+
+        <Text
+          text="MatchUI"
+        />
+
+      </Entity>
     );
   }
 

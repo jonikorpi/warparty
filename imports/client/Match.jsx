@@ -43,9 +43,9 @@ export default class Match extends Component {
           return (
             <PartyControls
               party={party}
-              key={partyID}
               partyID={partyID}
               matchState={matchState}
+              key={partyID}
             />
           );
         }
@@ -53,9 +53,9 @@ export default class Match extends Component {
           return (
             <PartyDisplay
               party={party}
-              key={partyID}
               partyID={partyID}
               matchState={matchState}
+              key={partyID}
             />
           );
         }
@@ -70,9 +70,17 @@ export default class Match extends Component {
         {this.getParties([this.props.match.leftParty, this.props.match.rightParty])}
         {this.getStructures(this.props.match.structures)}
 
-        {this.getPartyUIs([this.props.match.leftParty, this.props.match.rightParty], this.props.match.state)}
-
-        <MatchUI match={this.props.match}/>
+        <Entity id="above-board-UIs"
+          rotation={[-67.5, 0, 0]}
+          position={[
+            0,
+            0,
+            Variables.tileSize * -1.5,
+          ]}
+        >
+          <MatchUI match={this.props.match}/>
+          {this.getPartyUIs([this.props.match.leftParty, this.props.match.rightParty], this.props.match.state)}
+        </Entity>
 
       </Entity>
     );

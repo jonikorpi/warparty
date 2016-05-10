@@ -54,11 +54,36 @@ export default class PartyControls extends Component {
   //   }
   // }
 
+  getPosition(partyID) {
+    let position = [
+      0,
+      0,
+      0,
+    ];
+
+    switch (partyID) {
+      case 0:
+        position[0] = (Variables.tilesPerRow / 3 * 0.5) * Variables.tileSize;
+        break;
+      case 1:
+        position[0] = (Variables.tilesPerRow / 3 * 2) * Variables.tileSize + (Variables.tilesPerRow / 3 * 0.5) * Variables.tileSize;
+        break;
+    }
+
+    return position;
+  }
+
   render() {
     return (
-      <Text
-        text="PartyControls"
-      />
+      <Entity
+        position={this.getPosition(this.props.partyID)}
+      >
+
+        <Text
+          text="Party controls"
+        />
+
+      </Entity>
     );
   }
 
