@@ -6,6 +6,7 @@ import {Animation, Entity, Scene} from "aframe-react";
 import Variables from "../Variables";
 
 import Text from "./Text";
+import HeroModel from "./HeroModel";
 import Item from "./Item";
 import ItemSelector from "./ItemSelector";
 import Effect from "./Effect";
@@ -141,15 +142,6 @@ export default class Hero extends Component {
 
             <Entity
               class="hero-model"
-              geometry={{
-                primitive: "box",
-                width: Variables.heroWidth,
-                height: Variables.heroHeight,
-                depth: Variables.heroDepth,
-              }}
-              material={{
-                color: "red",
-              }}
               onClick={this.onHeroClick}
               onMouseEnter={this.onHeroMouseEnter}
               onMouseLeave={this.onHeroMouseLeave}
@@ -158,12 +150,16 @@ export default class Hero extends Component {
                 this.getRotation(this.props.party),
                 0,
               ]}
-            />
+            >
+
+              <HeroModel/>
+
+            </Entity>
 
             <Entity
               class="hero-items"
               position={[
-                0,
+                Variables.tileSize,
                 0,
                 0,
               ]}
