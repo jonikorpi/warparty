@@ -5,155 +5,115 @@ import {Animation, Entity, Scene} from "aframe-react";
 
 import Variables from "../../Variables";
 
+import Joint from "./Joint";
+
 export default class Arm extends Component {
 
   constructor(props) {
     super();
 
     this.state = {
-      body: props.body,
+      model: props.model,
       arm: props.arm,
     };
-
-    this.shoulderJoint = this.shoulderJoint.bind(this);
-    this.elbowJoint = this.elbowJoint.bind(this);
-    this.wristJoint = this.wristJoint.bind(this);
-    this.knuckleJoint = this.knuckleJoint.bind(this);
-  }
-
-  componentDidMount() {
-
-  }
-
-  shoulderJoint(state) {
-    return [
-      state.arm.shoulderJoint[0],
-      state.arm.shoulderJoint[1],
-      state.arm.shoulderJoint[2],
-    ];
-  }
-
-  elbowJoint(state) {
-    return [
-      state.arm.elbowJoint[0],
-      state.arm.elbowJoint[1],
-      state.arm.elbowJoint[2],
-    ];
-  }
-
-  wristJoint(state) {
-    return [
-      state.arm.wristJoint[0],
-      state.arm.wristJoint[1],
-      state.arm.wristJoint[2],
-    ];
-  }
-
-  knuckleJoint(state) {
-    return [
-      state.arm.knuckleJoint[0],
-      state.arm.knuckleJoint[1],
-      state.arm.knuckleJoint[2],
-    ];
   }
 
   render() {
     return (
-      <Entity
+      <Joint
         className="shoulder-joint"
         position={this.props.position}
-        rotation={this.shoulderJoint(this.state)}
-        scale={this.props.scale}
+        rotation={this.state.arm.shoulderJoint}
       >
         <Entity
           className="arm"
           geometry={{
             primitive: "box",
-            width:  this.state.body.arms.armWidth,
-            height: this.state.body.arms.armHeight,
-            depth:  this.state.body.arms.armDepth,
+            width:  this.state.model.arms.armWidth,
+            height: this.state.model.arms.armHeight,
+            depth:  this.state.model.arms.armDepth,
           }}
           position={[
-            this.state.body.arms.armWidth * 0.5,
-            this.state.body.arms.armHeight * 0.5,
+            0,
+            this.state.model.arms.armHeight * 0.5,
             0,
           ]}
           material={{
             color: "cyan",
           }}
         >
-          <Entity
+          <Joint
             className="elbow-joint"
             position={[
               0,
-              this.state.body.arms.armHeight * 0.5,
+              this.state.model.arms.armHeight * 0.5,
               0,
             ]}
-            rotation={this.elbowJoint(this.state)}
+            rotation={this.state.arm.elbowJoint}
           >
             <Entity
               className="forearm"
               geometry={{
                 primitive: "box",
-                width:  this.state.body.arms.forearmWidth,
-                height: this.state.body.arms.forearmHeight,
-                depth:  this.state.body.arms.forearmDepth,
+                width:  this.state.model.arms.forearmWidth,
+                height: this.state.model.arms.forearmHeight,
+                depth:  this.state.model.arms.forearmDepth,
               }}
               position={[
                 0,
-                this.state.body.arms.forearmHeight * 0.5,
+                this.state.model.arms.forearmHeight * 0.5,
                 0,
               ]}
               material={{
                 color: "red",
               }}
             >
-              <Entity
+              <Joint
                 className="wrist-joint"
                 position={[
                   0,
-                  this.state.body.arms.forearmHeight * 0.5,
+                  this.state.model.arms.forearmHeight * 0.5,
                   0,
                 ]}
-                rotation={this.wristJoint(this.state)}
+                rotation={this.state.arm.wristJoint}
               >
                 <Entity
                   className="palm"
                   geometry={{
                     primitive: "box",
-                    width:  this.state.body.arms.palmWidth,
-                    height: this.state.body.arms.palmHeight,
-                    depth:  this.state.body.arms.palmDepth,
+                    width:  this.state.model.arms.palmWidth,
+                    height: this.state.model.arms.palmHeight,
+                    depth:  this.state.model.arms.palmDepth,
                   }}
                   position={[
                     0,
-                    this.state.body.arms.palmHeight * 0.5,
+                    this.state.model.arms.palmHeight * 0.5,
                     0,
                   ]}
                   material={{
                     color: "cyan",
                   }}
                 >
-                  <Entity
+                  <Joint
                     className="knuckle-joint"
                     position={[
                       0,
-                      this.state.body.arms.palmHeight * 0.5,
+                      this.state.model.arms.palmHeight * 0.5,
                       0,
                     ]}
-                    rotation={this.knuckleJoint(this.state)}
+                    rotation={this.state.arm.knuckleJoint}
                   >
                     <Entity
                       className="fingers"
                       geometry={{
                         primitive: "box",
-                        width:  this.state.body.arms.fingersWidth,
-                        height: this.state.body.arms.fingersHeight,
-                        depth:  this.state.body.arms.fingersDepth,
+                        width:  this.state.model.arms.fingersWidth,
+                        height: this.state.model.arms.fingersHeight,
+                        depth:  this.state.model.arms.fingersDepth,
                       }}
                       position={[
                         0,
-                        this.state.body.arms.fingersHeight * 0.5,
+                        this.state.model.arms.fingersHeight * 0.5,
                         0,
                       ]}
                       material={{
@@ -161,14 +121,16 @@ export default class Arm extends Component {
                       }}
                     >
 
+                    {this.props.children}
+
                     </Entity>
-                  </Entity>
+                  </Joint>
                 </Entity>
-              </Entity>
+              </Joint>
             </Entity>
-          </Entity>
+          </Joint>
         </Entity>
-      </Entity>
+      </Joint>
     );
   }
 
