@@ -7,7 +7,7 @@ import Variables from "../../Variables";
 
 import Joint from "./Joint";
 
-export default class RightLeg extends Component {
+export default class SecondaryLeg extends Component {
 
   constructor(props) {
     super();
@@ -44,7 +44,11 @@ export default class RightLeg extends Component {
             this.state.model.legs.thighHeight * -0.5,
             0,
           ]}
-          rotation={this.state.leg.kneeJoint}
+          rotation={[
+            this.state.leg.kneeJoint[0],
+            this.state.leg.kneeJoint[1],
+            this.state.leg.kneeJoint[2],
+          ]}
         >
           <Entity
             className="calf"
@@ -70,7 +74,11 @@ export default class RightLeg extends Component {
                 this.state.model.legs.calfHeight * -0.5,
                 0,
               ]}
-              rotation={this.state.leg.ankleJoint}
+              rotation={[
+                this.state.leg.ankleJoint[0],
+                this.state.leg.ankleJoint[1],
+                this.state.leg.ankleJoint[2],
+              ]}
             >
               <Entity
                 className="foot"

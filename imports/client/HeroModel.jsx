@@ -81,7 +81,7 @@ export default class Hero extends Component {
         height: torsoHeight,
         width: torsoWidth,
         depth: torsoDepth,
-        joint: [0, -10, 0],
+        joint: [0, -20, -10],
       },
       hips: {
         height: hipsHeight,
@@ -99,12 +99,12 @@ export default class Hero extends Component {
         thighWidth: thighWidth,
         thighDepth: thighDepth,
         left: {
-          ankleJoint: [-15, -15, -10],
+          ankleJoint: [-20, -15, -10],
           kneeJoint:  [0, 0, 0],
-          thighJoint: [0, 0, 0],
+          thighJoint: [0, -10, 20],
         },
         right: {
-          ankleJoint: [-15, -15, -10],
+          ankleJoint: [0, 0, 0],
           kneeJoint:  [0, 0, 0],
           thighJoint: [0, 0, 0],
         },
@@ -176,21 +176,21 @@ export default class Hero extends Component {
 
   torsoJoint(state) {
     return [
-      state.torso.joint[0],
-      state.torso.joint[1] + (state.legs.left.ankleJoint[1] * -1),
-      state.torso.joint[2],
+      state.torso.joint[0] + (state.legs.left.thighJoint[0] * -1),
+      state.torso.joint[1] + (state.legs.left.ankleJoint[1] * -1) + (state.legs.left.thighJoint[1] * -1),
+      state.torso.joint[2] + (state.legs.left.thighJoint[2] * -1),
     ];
   }
 
   headJoint(state) {
     return [
-      state.head.joint[0],
-      (state.torso.joint[1] * -1) + state.head.joint[1],
-      state.head.joint[2],
+      state.head.joint[0] + (state.torso.joint[0] * -1),
+      state.head.joint[1] + (state.torso.joint[1] * -1),
+      state.head.joint[2] + (state.torso.joint[2] * -1),
     ];
   }
 
-  getLeg(leg) {
+  getMainLeg(state, leg) {
     let newLeg = Object.assign({}, leg);
 
     newLeg.ankleJoint = [
@@ -206,9 +206,33 @@ export default class Hero extends Component {
     ];
 
     newLeg.thighJoint = [
-      leg.thighJoint[0] + (newLeg.kneeJoint[0] / -2),
+      leg.thighJoint[0] + (newLeg.ankleJoint[0]),
       leg.thighJoint[1],
       leg.thighJoint[2] + (newLeg.ankleJoint[2] * -1),
+    ];
+
+    return newLeg;
+  }
+
+  getSecondaryLeg(state, leg) {
+    let newLeg = Object.assign({}, leg);
+
+    newLeg.ankleJoint = [
+      leg.ankleJoint[0],
+      leg.ankleJoint[1],
+      leg.ankleJoint[2],
+    ];
+
+    newLeg.kneeJoint = [
+      leg.kneeJoint[0],
+      leg.kneeJoint[1],
+      leg.kneeJoint[2],
+    ];
+
+    newLeg.thighJoint = [
+      leg.thighJoint[0],
+      leg.thighJoint[1],
+      leg.thighJoint[2],
     ];
 
     return newLeg;
@@ -218,7 +242,7 @@ export default class Hero extends Component {
     return (
       <MainLeg
         model={this.state}
-        leg={this.getLeg(this.state.legs.left)}
+        leg={this.getMainLeg(this.state, this.state.legs.left)}
         position={[
           0,
           this.state.legs.footHeight * 0.5 - this.state.body.height * 0.5,
@@ -233,7 +257,7 @@ export default class Hero extends Component {
             this.state.legs.thighHeight * 0.5,
             0,
           ]}
-          rotation={this.getLeg(this.state.legs.left).thighJoint}
+          rotation={this.getMainLeg(this.state, this.state.legs.left).thighJoint}
         >
 
           <Entity
@@ -261,11 +285,11 @@ export default class Hero extends Component {
                 this.state.hips.height / -2,
                 0,
               ]}
-              rotation={this.getLeg(this.state.legs.right).thighJoint}
+              rotation={this.getSecondaryLeg(this.state, this.state.legs.right).thighJoint}
             >
               <SecondaryLeg
                 model={this.state}
-                leg={this.getLeg(this.state.legs.right)}
+                leg={this.getSecondaryLeg(this.state, this.state.legs.right)}
               >
               </SecondaryLeg>
             </Joint>

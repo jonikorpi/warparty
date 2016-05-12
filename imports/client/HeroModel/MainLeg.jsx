@@ -7,7 +7,7 @@ import Variables from "../../Variables";
 
 import Joint from "./Joint";
 
-export default class LeftLeg extends Component {
+export default class MainLeg extends Component {
 
   constructor(props) {
     super();
